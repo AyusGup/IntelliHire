@@ -9,7 +9,6 @@ import CompleteReview from "./components/Interview/CompleteInterview";
 import InterviewMEET from "./components/Interview/AImeet";
 import ResumeScore from "./components/Resume/ResumeScore";
 import ManualInterviewMEET from "./components/Interview/ManualMeet";
-import { SocketProvider } from "./context/SocketProvider";
 import LobbyScreen from "./screens/Lobby";
 import Interviewer from "./components/Interview/Interviewer";
 

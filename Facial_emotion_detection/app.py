@@ -1,3 +1,5 @@
+from flask import Flask,jsonify,request
+from flask_cors import CORS
 import cv2
 from deepface import DeepFace
 import time
@@ -6,6 +8,9 @@ import threading
 # Global variables
 processing_flag = 0
 cap = cv2.VideoCapture(0)  # Use 0 for the default camera, or change to the appropriate index for multiple cameras
+
+app = Flask(__name__)
+CORS(app)
 
 def process_frame(frame):
     try:
@@ -57,6 +62,13 @@ def stop_api():
     stop_thread = threading.Thread(target=stop_video_processing)
     stop_thread.start()
 
-start_api()         ##Gupta tere kaam ke functions
-time.sleep(10)
-stop_api()      ##stop karne ke liye
+@app.get('/start')
+def start():
+    start_api()
+    return "Video processing started."
+
+@app.get('/stop')
+def start():
+    stop_api()
+    return "Video processing stoped."
+
