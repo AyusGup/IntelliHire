@@ -3,9 +3,10 @@ const cors= require("cors");
 const bodyParser= require("body-parser");
 const http= require("http");
 const {Server}= require("socket.io");
-const newUser= require("./routes/newUser");
-// const {handlenewUser}= require("../controller/user");
+const session = require('express-session');
+const { login, logout, callback, submitCustomJson } = require('./controller/hive');
 const app= express();
+
 
 const server= http.createServer(app);
 app.use(bodyParser.json({limit: '50mb'}));
@@ -15,15 +16,30 @@ app.use(cors({
   origin: ["http://localhost:3000"],
   credentials: true
 }));
+
 const io = new Server(server, {
   cors: true,
 });
+
+app.use(session({
+  secret: 'your-secret-key2',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Create a new Client instance with your app's credentials
+
+
 app.get("/", (req, res) => {
 
   res.send("Hello Express");
   
-  });
+});
 
+app.get("/login", login);
+app.get("/logout", logout);
+app.get("/callback", callback);
+app.get("/submitCustomJson", submitCustomJson);
 
 
 const emailToSocketIdMap = new Map();
