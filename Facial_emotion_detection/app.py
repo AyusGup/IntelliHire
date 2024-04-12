@@ -4,8 +4,10 @@ import cv2
 from deepface import DeepFace
 import time
 import threading
+import streamlit as st
 
 # Global variables
+ans=0
 processing_flag = 0
 cap = cv2.VideoCapture(0)  # Use 0 for the default camera, or change to the appropriate index for multiple cameras
 
@@ -17,7 +19,10 @@ def process_frame(frame):
         predictions = DeepFace.analyze(frame, actions=["emotion"], enforce_detection=False)
         total_confidence = 0
         for prediction in predictions:
+            global ans
             total_confidence += (prediction["face_confidence"])
+            if len(prediction):
+                ans=total_confidence / len(predictions)
         return total_confidence / len(predictions) if len(predictions) > 0 else 0
     except ValueError:
         print("Face could not be detected in the frame.")
@@ -61,6 +66,7 @@ def start_api():
 def stop_api():
     stop_thread = threading.Thread(target=stop_video_processing)
     stop_thread.start()
+    return ans
 
 @app.get('/start')
 def start():
