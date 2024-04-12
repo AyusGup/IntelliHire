@@ -1,8 +1,30 @@
-const { Server } = require("socket.io");
+const express= require("express");
+const cors= require("cors");
+const bodyParser= require("body-parser");
+const http= require("http");
+const {Server}= require("socket.io");
+const newUser= require("./routes/newUser");
+// const {handlenewUser}= require("../controller/user");
+const app= express();
 
-const io = new Server(8000, {
+const server= http.createServer(app);
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb',extended:true}));
+
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  credentials: true
+}));
+const io = new Server(server, {
   cors: true,
 });
+app.get("/", (req, res) => {
+
+  res.send("Hello Express");
+  
+  });
+
+
 
 const emailToSocketIdMap = new Map();
 const socketidToEmailMap = new Map();
@@ -36,3 +58,8 @@ io.on("connection", (socket) => {
     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
   });
 });
+
+
+server.listen(8000, () => {
+  console.log("server listening on port: 8000");
+})

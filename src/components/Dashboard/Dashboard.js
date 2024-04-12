@@ -44,4 +44,5 @@ export default Dashboard;
 
 Dashboard.defaultProps = {
   visibity: false,
+
 };
