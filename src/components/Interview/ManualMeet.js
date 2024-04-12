@@ -50,7 +50,7 @@ const ManualInterviewMEET = (props) => {
       audio: true,
       video: true,
     });
-    console.log(stream.getVideoTracks());
+    console.log(stream);
     const offer = await peer.getOffer();
     socket.emit("user:call", { to: remoteSocketId, offer });
     setMyStream(stream);

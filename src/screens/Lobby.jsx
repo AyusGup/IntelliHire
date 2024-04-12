@@ -23,9 +23,9 @@ const LobbyScreen = () => {
       const { email, room,type} = data;
       console.log(data);
       if(type==="Candidate")
-      navigate(current.pathname + "/candidate"+"/room/" +room);
+      navigate(current.pathname + "/online/candidate"+"/room/" +room);
       else
-      navigate(current.pathname + "/interviewer"+"/room/" +room);
+      navigate(current.pathname + "/online/interviewer"+"/room/" +room);
     },
     [navigate]
   );
