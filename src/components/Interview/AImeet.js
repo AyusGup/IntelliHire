@@ -17,13 +17,13 @@ const InterviewMEET = (props) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
-
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition
+  // } = useSpeechRecognition();
+  
   const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
   // let {
@@ -67,19 +67,19 @@ const InterviewMEET = (props) => {
   }
 
 
-  const startListening = () => {
-    resetTranscript(); // Reset transcript
-    setTimer(10); // Reset timer
-    SpeechRecognition.startListening({continuous: true});
-  };
+  // const startListening = () => {
+  //   resetTranscript(); // Reset transcript
+  //   setTimer(10); // Reset timer
+  //   SpeechRecognition.startListening({continuous: true});
+  // };
 
-  const stopListening = () => {
-    SpeechRecognition.stopListening();
-  };
+  // const stopListening = () => {
+  //   SpeechRecognition.stopListening();
+  // };
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
+  // if (!browserSupportsSpeechRecognition) {
+  //   return <span>Browser doesn't support speech recognition.</span>;
+  // }
 
   const speak = (text) => {
     return new Promise((resolve) => {
@@ -91,24 +91,20 @@ const InterviewMEET = (props) => {
   };
 
   useEffect(() => {
-    // Guard clause to check if questions is already fetched
-    if (questions.length > 0) {
-      return; // Exit early if questions are already fetched
-    }
-  
-    const getQ = async() => {
+    const getQ = async () => {
       try {
-        const ques = await fetch(postID); 
+        const ques = await fetch(postID);
+
         setQuestions(ques);
       } catch (error) {
-        console.error('Error fetching questions:', error);
+        console.error("Error fetching questions:", error);
       }
     };
-  
-    getQ(); // Always invoke getQ
-  
-  }, []); // Run effect when questions state changes
-  
+
+    if (questions.length === 0) {
+      getQ();
+    }
+  }, [questions]); 
 
 
   //todo Remove the header from the meet
@@ -139,6 +135,7 @@ const InterviewMEET = (props) => {
       if (completed) {
         console.log("Speech has finished.");
         startRecording();
+        // startListening();
         console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
@@ -159,6 +156,8 @@ const InterviewMEET = (props) => {
         clearInterval(qInterval);
       }
       stopRecording();
+      // stopListening();
+      // console.log("this is transcript",transcript);
       console.log("Recording stopped", mediaBlobUrl);
       speak(questions[++idx]).then((completed) => {
         if (completed) {
