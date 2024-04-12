@@ -1,3 +1,5 @@
+from flask import Flask,jsonify,request
+from flask_cors import CORS
 import cv2
 from deepface import DeepFace
 import time
@@ -8,6 +10,9 @@ import streamlit as st
 ans=0
 processing_flag = 0
 cap = cv2.VideoCapture(0)  # Use 0 for the default camera, or change to the appropriate index for multiple cameras
+
+app = Flask(__name__)
+CORS(app)
 
 def process_frame(frame):
     try:
@@ -63,6 +68,7 @@ def stop_api():
     stop_thread.start()
     return ans
 
+<<<<<<< HEAD
 
 # Streamlit UI
 st.title("Face Emotion Analysis")
@@ -72,3 +78,15 @@ if st.button("Start Processing"):
     time.sleep(20)
     stop_api()
     
+=======
+@app.get('/start')
+def start():
+    start_api()
+    return "Video processing started."
+
+@app.get('/stop')
+def start():
+    stop_api()
+    return "Video processing stoped."
+
+>>>>>>> 17a0c83ec933326962d716cfa2f5239f9df35d60

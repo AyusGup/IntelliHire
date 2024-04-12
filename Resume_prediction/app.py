@@ -121,7 +121,7 @@ def get_response(uploaded_file, jd):
             "Description":Description
             }
     
-    output=jsonify(mydict)
+    output=json.dumps(mydict)
     return output
 
 text = '''
