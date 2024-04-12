@@ -2,8 +2,6 @@
 // import { useLocation } from 'react-router-dom';
 import React, { useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
-import axios from "axios";
-import Header from "../Layout/header";
 import { useUser } from "../../context/userProvider";
 
 function Home() {
@@ -12,13 +10,33 @@ function Home() {
   const username = searchParams.get("username");
   const expires_in = searchParams.get("expires_in");
   const [profile,setProfile] = useUser();
-  if(access_token && username && expires_in){
-    setProfile({
-      token:access_token,
-      userName:username,
-      expiresIn: expires_in
-    })
-  }
+  
+
+  useEffect(() => {
+    if(access_token && username && expires_in){
+      setProfile({
+        token:access_token,
+        userName:username,
+        expiresIn: expires_in
+      })
+  
+      fetch(`http://localhost:8000/callback?access_token=${access_token}&username=${username}`, {
+      method: "GET",
+      })
+      .then(data => {
+        console.log(data)
+      })
+      .catch(error => console.error('Error:', error));
+
+      // fetch(`http://localhost:8000/submitCustomJson?token=${access_token}&username=${username}`, {
+      // method: "GET",
+      // })
+      // .then(data => {
+      //   console.log(data)
+      // })
+      // .catch(error => console.error('Error:', error));
+    }
+  }, [access_token, username, expires_in]);
   
   // if (access_token && username) {
   //   axios.get(`https://490bj8xz-3001.inc1.devtunnels.ms/callback?access_token=${access_token}&username=${username}`)
