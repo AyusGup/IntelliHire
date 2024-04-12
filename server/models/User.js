@@ -5,33 +5,9 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    contact:{
-        type:Number,
-        unique:true,
-        required:true
-    },
-    email:{
-        type:String,
-        unique:true,
-        required:true
-    },
-    password:{
-        type:String,
-        required:true
-    },
     userImage:{
         type:String,
-    },
-    start:{
-        type:String,
-    },
-    destination:{
-        type:String,
-    },
-    startTime:{
-        type:String,
     }
-
 })
 
 

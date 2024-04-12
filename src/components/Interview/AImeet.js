@@ -21,12 +21,12 @@ const InterviewMEET = (props) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
 
-  // const {
-  //   transcript,
-  //   listening,
-  //   resetTranscript,
-  //   browserSupportsSpeechRecognition
-  // } = useSpeechRecognition();
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
   
   const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
@@ -79,15 +79,16 @@ const InterviewMEET = (props) => {
   }
 
 
-  // const startListening = () => {
-  //   resetTranscript(); // Reset transcript
-  //   setTimer(10); // Reset timer
-  //   SpeechRecognition.startListening({continuous: true});
-  // };
+  const startListening = () => {
+    resetTranscript(); // Reset transcript
+    setTimer(10); // Reset timer
+    SpeechRecognition.startListening({continuous: true});
+  };
 
-  // const stopListening = () => {
-  //   SpeechRecognition.stopListening();
-  // };
+  const stopListening = () => {
+    console.log(transcript, "bkl"); // Log transcript
+    SpeechRecognition.stopListening();
+  };
 
   // if (!browserSupportsSpeechRecognition) {
   //   return <span>Browser doesn't support speech recognition.</span>;
@@ -148,7 +149,7 @@ const InterviewMEET = (props) => {
       if (completed) {
         console.log("Speech has finished.");
         startRecording();
-        // startListening();
+        startListening();
         console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
@@ -169,8 +170,8 @@ const InterviewMEET = (props) => {
         clearInterval(qInterval);
       }
       stopRecording();
-      // stopListening();
-      // console.log("this is transcript",transcript);
+      stopListening();
+      console.log("this is transcript",transcript);
       console.log("Recording stopped", mediaBlobUrl);
       speak(questions[++idx]).then((completed) => {
         if (completed) {
