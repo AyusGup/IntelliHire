@@ -4,6 +4,8 @@ import axios from "axios";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useReactMediaRecorder, ReactMediaRecorder } from "react-media-recorder";
 import fetch from "../../helper/question";
+import ReactPlayer from "react-player";
+// import WebCam from "react-webcam"
 
 const InterviewMEET = (props) => {
   const { postID, typeID, InterviewID } = useParams();
@@ -11,19 +13,21 @@ const InterviewMEET = (props) => {
   const [questions, setQuestions] = useState([]);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [time, setTime] = useState(10);
+  const [myStream, setMyStream] = useState();
+  const [ifStart, setIfStart] =useState(false);
   let timingInterval, qInterval;
 
   const handleDataAvailable = useCallback((chunk) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
-
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition
+  // } = useSpeechRecognition();
+  
   const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
   // let {
@@ -42,6 +46,14 @@ const InterviewMEET = (props) => {
   // });
   const { status, startRecording, stopRecording, mediaBlobUrl } =
   useReactMediaRecorder({ video: true });
+
+  useEffect(async() => {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true,
+  });
+  setMyStream(stream);
+  },[]);
 
   async function callTheapi(recordedChunks) {
     const formData = new FormData();
@@ -67,19 +79,19 @@ const InterviewMEET = (props) => {
   }
 
 
-  const startListening = () => {
-    resetTranscript(); // Reset transcript
-    setTimer(10); // Reset timer
-    SpeechRecognition.startListening({continuous: true});
-  };
+  // const startListening = () => {
+  //   resetTranscript(); // Reset transcript
+  //   setTimer(10); // Reset timer
+  //   SpeechRecognition.startListening({continuous: true});
+  // };
 
-  const stopListening = () => {
-    SpeechRecognition.stopListening();
-  };
+  // const stopListening = () => {
+  //   SpeechRecognition.stopListening();
+  // };
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
+  // if (!browserSupportsSpeechRecognition) {
+  //   return <span>Browser doesn't support speech recognition.</span>;
+  // }
 
   const speak = (text) => {
     return new Promise((resolve) => {
@@ -91,24 +103,20 @@ const InterviewMEET = (props) => {
   };
 
   useEffect(() => {
-    // Guard clause to check if questions is already fetched
-    if (questions.length > 0) {
-      return; // Exit early if questions are already fetched
-    }
-  
-    const getQ = async() => {
+    const getQ = async () => {
       try {
-        const ques = await fetch(postID); 
+        const ques = await fetch(postID);
+
         setQuestions(ques);
       } catch (error) {
-        console.error('Error fetching questions:', error);
+        console.error("Error fetching questions:", error);
       }
     };
-  
-    getQ(); // Always invoke getQ
-  
-  }, []); // Run effect when questions state changes
-  
+
+    if (questions.length === 0) {
+      getQ();
+    }
+  }, [questions]); 
 
 
   //todo Remove the header from the meet
@@ -134,11 +142,13 @@ const InterviewMEET = (props) => {
   };
 
   const startInterview = () => {
+    setIfStart(true);
     let idx = 0;
     speak(questions[0]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
         startRecording();
+        // startListening();
         console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
@@ -159,6 +169,8 @@ const InterviewMEET = (props) => {
         clearInterval(qInterval);
       }
       stopRecording();
+      // stopListening();
+      // console.log("this is transcript",transcript);
       console.log("Recording stopped", mediaBlobUrl);
       speak(questions[++idx]).then((completed) => {
         if (completed) {
@@ -194,34 +206,41 @@ const InterviewMEET = (props) => {
 
         {/* Main meet */}
         <div className="main-meet flex w-11/12 h-4/5 m-auto items-center px-auto justify-around">
-          <div className="w-3/5 h-full rounded-lg bg-slate-500 ">
-            <button onClick={startInterview}>start</button>
-            <button onClick={() => speak(questions[qid])}>Speak</button>
+        <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-indigo-950 text-slate-50 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
+              
+            
             <div>{questions[qid]}</div>
           </div>
-          <div id="RIGHT-SIDE-OPTIONS" className="h-full flex items-center">
-            <div className="logo-meet absolute top-10 right-14 h-14 w-14 bg-slate-50">
+          <div id="RIGHT-SIDE-OPTIONS" className="h-full flex flex-col justify-between">
+            <div className="logo-meet top-10 right-14 h-14 w-14 bg-slate-50 self-end">
               <img src="" alt="LOGO" />{" "}
             </div>
 
             {/* time and command component */}
-            <div className="w-60 h-40 bg-slate-600 rounded-2xl">
-              <div className="w-full h-[70%] bg-red-400 rounded-t-2xl  ">
-                {time}
+            <div className="w-60 h-40 bg-slate-600 rounded-2xl ">
+              <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={startInterview}>
+                {ifStart ? time: "start"}
               </div>
               <div className="flex w-full h-[30%] justify-around rounded-b-2xl">
-                <button className="h-full w-[49%] bg-slate-400 rounded-bl-2xl ">
-                  Ask
-                </button>
-                <button className="rounded-br-2xl h-full w-[49%] bg-slate-400">
+                <button className="h-full w-[49%] bg-slate-400 rounded-bl-2xl hover:bg-slate-600"
+                 onClick={() => speak(questions[qid])}>Speak Again</button>
+                <button className="rounded-br-2xl h-full w-[49%] bg-slate-400 hover:bg-slate-600">
                   Next
                 </button>
               </div>
             </div>
 
             {/* OUR_CAMERA */}
-            <div className="absolute w-96 h-56 bottom-10 right-10 bg-slate-500 rounded-lg">
-            
+            <div className=" w-64 h-fit bottom-10 right-10 bg-slate-500 rounded-lg translate-x-10 translate-y-10 border-white border-3 text-wrap text-red-400 font-semibold">
+            {myStream ? (
+              <ReactPlayer
+                playing
+                muted
+                height="100%"
+                width="100%"
+                url={myStream}
+              />
+            ) : "Camera Access Denied"}
             </div>
           </div>
         </div>
