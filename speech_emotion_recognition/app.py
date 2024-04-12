@@ -6,6 +6,7 @@ import queue
 import threading
 import time
 
+average_probability=0
 # Load the pre-trained model
 model = tf.keras.models.load_model("your_model_name.h5")
 
@@ -40,23 +41,29 @@ def predict_emotion():
             break
 
 def analyze_audio():
+    global average_probability
     global analysis_running
+    avg_prob = 0
+    count = 0
     while analysis_running:
         try:
             audio_data = audio_queue.get()
             mfcc_features = extract_mfcc(audio_data, sr=22050)  # Assuming sample rate is 22050
             mfcc_features = mfcc_features.reshape(1, -1)
             prediction = model.predict(mfcc_features)
-            # Get the index of the class with the highest probability
-            predicted_class_index = np.argmax(prediction)
-            # Get the predicted class label
-            predicted_class_label = class_labels[predicted_class_index]
-            # Print the predicted class label
-            print("Predicted emotion:", predicted_class_label)
+            # Get the probabilities of 'happy', 'neutral', and 'pleasant' classes
+            happy_prob = prediction[0][3]  # Probability of 'happy'
+            neutral_prob = prediction[0][4]  # Probability of 'neutral'
+            pleasant_prob = prediction[0][5]  # Probability of 'pleasant'
+            # Calculate the average probability
+            avg_prob = (avg_prob * count + (happy_prob + neutral_prob + pleasant_prob)) / (count + 1)
+            count += 1
+            average_probability=avg_prob
+            analysis_running
         except queue.Empty:
             pass
 
-def start_analysis():           ##Gupta tere kaam ke function for start
+def start_analysis():
     global analysis_running
     if not analysis_running:
         analysis_running = True
@@ -65,7 +72,7 @@ def start_analysis():           ##Gupta tere kaam ke function for start
     else:
         print("Analysis is already running.")
 
-def stop_analysis():                ###function for stop
+def stop_analysis():
     global analysis_running
     if analysis_running:
         analysis_running = False
@@ -73,6 +80,8 @@ def stop_analysis():                ###function for stop
         print("Analysis is not running.")
 
 # Example usage:
-start_analysis() 
-time.sleep(100)
+start_analysis()
+time.sleep(10)  # Run analysis for 10 seconds (adjust as needed)
 stop_analysis()
+
+print("Average probability:", average_probability)
