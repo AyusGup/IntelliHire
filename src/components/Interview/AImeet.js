@@ -11,18 +11,34 @@ const InterviewMEET = (props) => {
   const [questions, setQuestions] = useState([]);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [time, setTime] = useState(10);
+  const [recordedText, setRecordedText] = useState('');
+  // const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   let timingInterval, qInterval;
+
+  // const handleStartRecording = () => {
+  //   startListening();
+  // };
+
+  // const handleStopRecording = () => {
+  //   stopListening();
+  //   setRecordedText(transcript);
+  // };
 
   const handleDataAvailable = useCallback((chunk) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
+  
+  // const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
+  // const stopListening = () =>{ SpeechRecognition.stopListening();
+  //     console.log("chitiau ki transcripy",transcript);
+  // }
 
-  // const {
-  //   transcript,
-  //   listening,
-  //   resetTranscript,
-  //   browserSupportsSpeechRecognition
-  // } = useSpeechRecognition();
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
   
   const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
@@ -67,15 +83,15 @@ const InterviewMEET = (props) => {
   }
 
 
-  // const startListening = () => {
-  //   resetTranscript(); // Reset transcript
-  //   setTimer(10); // Reset timer
-  //   SpeechRecognition.startListening({continuous: true});
-  // };
+  const startListening = () => {
+    resetTranscript(); // Reset transcript
+    setTimer(10); // Reset timer
+    SpeechRecognition.startListening({continuous: true});
+  };
 
-  // const stopListening = () => {
-  //   SpeechRecognition.stopListening();
-  // };
+  const stopListening = () => {
+    SpeechRecognition.stopListening();
+  };
 
   // if (!browserSupportsSpeechRecognition) {
   //   return <span>Browser doesn't support speech recognition.</span>;
@@ -134,8 +150,11 @@ const InterviewMEET = (props) => {
     speak(questions[0]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
+        console.log("this is recorded text ",recordedText);
         startRecording();
-        // startListening();
+        // handleStartRecording();
+        startListening();
+        console.log(transcript)
         console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
@@ -156,13 +175,15 @@ const InterviewMEET = (props) => {
         clearInterval(qInterval);
       }
       stopRecording();
-      // stopListening();
+      // handleStopRecording();
+      stopListening();
       // console.log("this is transcript",transcript);
       console.log("Recording stopped", mediaBlobUrl);
       speak(questions[++idx]).then((completed) => {
         if (completed) {
           console.log("Speech has finished.");
           startRecording();
+          startListening();
           timingInterval = setInterval(() => {
             setTime((prevTime) => {
               if (prevTime === 0) {

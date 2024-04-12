@@ -11,7 +11,7 @@ import ResumeScore from "./components/Resume/ResumeScore";
 import ManualInterviewMEET from "./components/Interview/ManualMeet";
 import LobbyScreen from "./screens/Lobby";
 import Interviewer from "./components/Interview/Interviewer";
-
+import Dictaphone from "./components/Interview/temp";
 function App() {
   return (
     <>
@@ -30,6 +30,11 @@ function App() {
             extact
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/online"
             element={<LobbyScreen />}
+          />
+          <Route
+            extact
+            path="/faltu"
+            element={<Dictaphone />}
           />
           <Route
             extact
