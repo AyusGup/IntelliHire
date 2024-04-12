@@ -1,0 +1,12 @@
+.Hero-heading{
+    scale: 0.7;
+    opacity: 0;
+    animation: fade-in ease-in forwards;
+    animation-timeline: view();
+    animation-range: 400px 900px; 
+    /* transform: translateX(-50%); */
+}
+@keyframes fade-in {
+    to{scale: 1; opacity: 1;
+    left: 50%;}
+}
