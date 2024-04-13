@@ -52,7 +52,7 @@ function Home() {
         {/* <div className="w-4/5 h-[120vh] right-14 bg-[#4E00B0] blur-[120px] transform"> */}
         {/* </div> */}
       </div>
-      <div className="w-full h-full flex justify-center items-center">>
+      <div className="w-full h-full flex justify-center items-center">
       <div className="w-[50%] flex flex-col items-center justify-center">
         <div className="w-4/5 h-[26%] flex justify-end">
           {" "}
