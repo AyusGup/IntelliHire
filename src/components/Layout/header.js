@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
+import { useUser } from "../../context/userProvider";
 
 const Header = () => {
   const [loginVisible, setLoginVisible] = useState(false);
+  const [user, setUser] = useUser();
+  
+
   const callHiveSigner = () => {
-    fetch('http://localhost:3001/login', {
+    fetch('http://localhost:8000/login', {
     method: "GET",
     })
     .then(response => response.json())
@@ -15,7 +18,20 @@ const Header = () => {
         window.location.href = data.url;
     })
     .catch(error => console.error('Error:', error));
-};
+  };
+
+  const revokeHiveSigner = () => {
+    console.log("revoke")
+    fetch('http://localhost:8000/logout', {
+    method: "GET",
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        window.location.href = data.url;
+    })
+    .catch(error => console.error('Error:', error));
+  };
 
   return (
     <>
@@ -39,10 +55,11 @@ const Header = () => {
           <div>
             <Link to="/Complete-Interview">Preplacement </Link>
           </div>
-          <button onClick={callHiveSigner}>
-            {/* <Link to="/Dashboard">Login </Link> */}
+          {user.token === "" ? <button onClick={callHiveSigner}>
             Login
-          </button>
+          </button>: <Link to="/profile">
+            Profile
+          </Link>}
         </div>
       </div>
       <Dashboard visibity={loginVisible} />

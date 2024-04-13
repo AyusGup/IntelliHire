@@ -207,7 +207,8 @@ const ManualInterviewMEET = (props) => {
 
   return (
     <>
-      <div className="w-full h-1/10">
+      <div className="w-full h-screen bg-slate-950 m-0 p-0 z-9 flex flex-col justify-center">
+      {/* <div className="w-full h-1/10"> */}
         <div className="text-white text-lg absolute top-3 left-3 z-10">
           <button onClick={toggleExitOption}>
             <img src="" alt="Exit" />
@@ -219,9 +220,8 @@ const ManualInterviewMEET = (props) => {
               Send Stream
             </button>
           )}
-        </div>
+        {/* </div> */}
       </div>
-      <div className="w-full h-screen bg-slate-950 m-0 p-0 z-9 flex items-center">
         {remoteSocketId ? (
           <p className="text-[rgb(0,255,0)] text-lg font-semibold absolute bottom-10 left-4">
             Connected
@@ -240,9 +240,10 @@ const ManualInterviewMEET = (props) => {
         />
         {/* {remoteSocketId && <button onClick={handleCallUser} className="text-white">CALL</button>} */}
         {/* Main meet */}
-        <div className="main-meet flex w-11/12 h-4/5 m-auto items-center px-auto justify-around">
+        {/* <div className=" flex " */}
+        <div className="flex w-full h-3/5 mt-7 items-center justify-evenly">
           {/* <div className="w-3/5 h-3/4 rounded-lg bg-slate-500"> */}
-          <div className="w- h-1/2 min-w-[640px] min-h-[480px] rounded-lg bg-slate-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)]  border-white border-8">
+          <div className="w-1/3 h-2/5 min-w-[640px] min-h-[480px] rounded-2xl bg-slate-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)]  border-white border-8">
             {remoteStream && (
               <>
                 <ReactPlayer
@@ -286,7 +287,7 @@ const ManualInterviewMEET = (props) => {
             </div> */}
 
           {/* //! OUR_CAMERA */}
-          <div className="w- h-1/2 min-w-[640px] min-h-[480px] rounded-lg bg-slate-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
+          <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-slate-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
             {myStream && (
               <ReactPlayer
                 playing
