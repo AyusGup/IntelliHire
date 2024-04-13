@@ -10,16 +10,19 @@ import InterviewMEET from "./components/Interview/AImeet";
 import ResumeScore from "./components/Resume/ResumeScore";
 import ManualInterviewMEET from "./components/Interview/ManualMeet";
 import LobbyScreen from "./screens/Lobby";
+import Profile from "./components/Dashboard/profile";
 import Interviewer from "./components/Interview/Interviewer";
 import Dictaphone from "./components/Interview/temp";
+import CompanyDashboard from "./components/Dashboard/CompanyDashboard";import Dictaphone from "./components/Interview/temp";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
+        {/* <Header /> */}
         <Routes>
-          <Route exact path="/callback" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/Resume" element={<Resume />} />
           <Route exact path="/Interview" element={<Interview />} />
           <Route
@@ -39,8 +42,18 @@ function App() {
           />
           <Route
             extact
+            path="/faltu"
+            element={<Dictaphone />}
+          />
+          <Route
+            extact
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
             element={<InterviewMEET />}
+          />
+          <Route
+            extact
+            path="/company"
+            element={<CompanyDashboard />}
           />
           <Route
             extact

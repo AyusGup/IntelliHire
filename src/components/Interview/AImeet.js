@@ -13,9 +13,18 @@ const InterviewMEET = (props) => {
   const [questions, setQuestions] = useState([]);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [time, setTime] = useState(10);
-  const [myStream, setMyStream] = useState();
-  const [ifStart, setIfStart] =useState(false);
+  const [ifStart,setIfStart] = useState(false);
+  const [myStream,setMyStream] = useState();
   let timingInterval, qInterval;
+
+  // const handleStartRecording = () => {
+  //   startListening();
+  // };
+
+  // const handleStopRecording = () => {
+  //   stopListening();
+  //   setRecordedText(transcript);
+  // };
 
   const handleDataAvailable = useCallback((chunk) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
@@ -149,6 +158,7 @@ const InterviewMEET = (props) => {
     speak(questions[0]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
+        console.log("this is recorded text ",recordedText);
         startRecording();
         startListening();
         // startListening();

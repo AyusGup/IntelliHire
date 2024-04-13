@@ -1,9 +1,7 @@
 // import React, { useEffect, useState } from "react";
 // import { useLocation } from 'react-router-dom';
 import React, { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
-import Header from "../Layout/header";
+import { useSearchParams } from 'react-router-dom';
 import { useUser } from "../../context/userProvider";
 import { motion } from "framer-motion";
 import "./Home.css";
@@ -13,15 +11,15 @@ function Home() {
   const access_token = searchParams.get("access_token");
   const username = searchParams.get("username");
   const expires_in = searchParams.get("expires_in");
-  const [profile, setProfile] = useUser();
-  if (access_token && username && expires_in) {
+  const [profile,setProfile] = useUser();
+  if(access_token && username && expires_in){
     setProfile({
-      token: access_token,
-      userName: username,
-      expiresIn: expires_in,
-    });
+      token:access_token,
+      userName:username,
+      expiresIn: expires_in
+    })
   }
-
+  
   // if (access_token && username) {
   //   axios.get(`https://490bj8xz-3001.inc1.devtunnels.ms/callback?access_token=${access_token}&username=${username}`)
   //   .then((res)=>{
