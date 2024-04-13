@@ -21,12 +21,12 @@ const InterviewMEET = (props) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
 
-  // const {
-  //   transcript,
-  //   listening,
-  //   resetTranscript,
-  //   browserSupportsSpeechRecognition
-  // } = useSpeechRecognition();
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
   
   const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
@@ -79,15 +79,17 @@ const InterviewMEET = (props) => {
   }
 
 
-  // const startListening = () => {
-  //   resetTranscript(); // Reset transcript
-  //   setTimer(10); // Reset timer
-  //   SpeechRecognition.startListening({continuous: true});
-  // };
+  const startListening = () => {
+    resetTranscript(); // Reset transcript
+    setTimer(10); // Reset timer
+    SpeechRecognition.startListening({continuous: true});
+  };
 
-  // const stopListening = () => {
-  //   SpeechRecognition.stopListening();
-  // };
+  const stopListening = () => {
+    console.log("this is d=script" , transcript);
+    SpeechRecognition.stopListening();
+    
+  };
 
   // if (!browserSupportsSpeechRecognition) {
   //   return <span>Browser doesn't support speech recognition.</span>;
@@ -148,6 +150,7 @@ const InterviewMEET = (props) => {
       if (completed) {
         console.log("Speech has finished.");
         startRecording();
+        startListening();
         // startListening();
         console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
@@ -169,13 +172,14 @@ const InterviewMEET = (props) => {
         clearInterval(qInterval);
       }
       stopRecording();
-      // stopListening();
+      stopListening();
       // console.log("this is transcript",transcript);
       console.log("Recording stopped", mediaBlobUrl);
       speak(questions[++idx]).then((completed) => {
         if (completed) {
           console.log("Speech has finished.");
           startRecording();
+          startListening();
           timingInterval = setInterval(() => {
             setTime((prevTime) => {
               if (prevTime === 0) {
@@ -219,7 +223,7 @@ const InterviewMEET = (props) => {
             {/* time and command component */}
             <div className="w-60 h-40 bg-slate-600 rounded-2xl ">
               <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={startInterview}>
-                {ifStart ? time: "start"}
+                {ifStart ? time: "start"}{transcript}
               </div>
               <div className="flex w-full h-[30%] justify-around rounded-b-2xl">
                 <button className="h-full w-[49%] bg-slate-400 rounded-bl-2xl hover:bg-slate-600"
