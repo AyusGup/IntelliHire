@@ -21,14 +21,14 @@ const InterviewMEET = (props) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition
+  // } = useSpeechRecognition();
   
-  const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
+  // const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
   // let {
   //   liveStream,
@@ -44,51 +44,51 @@ const InterviewMEET = (props) => {
   //     handleDataAvailable(data);
   //   },
   // });
-  const { status, startRecording, stopRecording, mediaBlobUrl } =
-  useReactMediaRecorder({ video: true });
+  // const { status, startRecording, stopRecording, mediaBlobUrl } =
+  // useReactMediaRecorder({ video: true });
 
-  useEffect(async() => {
-  const stream = await navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true,
-  });
-  setMyStream(stream);
-  },[]);
+  // useEffect(async() => {
+  // const stream = await navigator.mediaDevices.getUserMedia({
+  //   audio: true,
+  //   video: true,
+  // });
+  // setMyStream(stream);
+  // },[]);
 
-  async function callTheapi(recordedChunks) {
-    const formData = new FormData();
-    formData.append('mergedBlob', recordedChunks, 'recording.webm');
+  // async function callTheapi(recordedChunks) {
+  //   const formData = new FormData();
+  //   formData.append('mergedBlob', recordedChunks, 'recording.webm');
   
-    try {
-      const response = await axios.post('http://localhost:5000/', formData,  {headers: {
-        "Content-Type": "multipart/form-data",
-      },});
-      console.log('Response:', response.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
+  //   try {
+  //     const response = await axios.post('http://localhost:5000/', formData,  {headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },});
+  //     console.log('Response:', response.data);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // }
 
-  function download(){
-  //     const downloadLink = document.createElement('a');
-  // downloadLink.href = URL.createObjectURL(mediaBlob);
-  //     downloadLink.download = 'recording.webm'; // Specify the filename
-  //     downloadLink.click();
-    const mergedBlob = new Blob(recordedChunks, { type: 'video/webm' });
-    callTheapi(mergedBlob);
-  }
+  // function download(){
+  // //     const downloadLink = document.createElement('a');
+  // // downloadLink.href = URL.createObjectURL(mediaBlob);
+  // //     downloadLink.download = 'recording.webm'; // Specify the filename
+  // //     downloadLink.click();
+  //   const mergedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+  //   callTheapi(mergedBlob);
+  // }
 
 
-  const startListening = () => {
-    resetTranscript(); // Reset transcript
-    setTimer(10); // Reset timer
-    SpeechRecognition.startListening({continuous: true});
-  };
+  // const startListening = () => {
+  //   resetTranscript(); // Reset transcript
+  //   setTimer(10); // Reset timer
+  //   SpeechRecognition.startListening({continuous: true});
+  // };
 
-  const stopListening = () => {
-    console.log(transcript, "bkl"); // Log transcript
-    SpeechRecognition.stopListening();
-  };
+  // const stopListening = () => {
+  //   console.log(transcript, "bkl"); // Log transcript
+  //   SpeechRecognition.stopListening();
+  // };
 
   // if (!browserSupportsSpeechRecognition) {
   //   return <span>Browser doesn't support speech recognition.</span>;
@@ -107,7 +107,14 @@ const InterviewMEET = (props) => {
     const getQ = async () => {
       try {
         const ques = await fetch(postID);
+        console.log(ques);
+        axios.get(`http://localhost:5000/start`).then((res) => {
+          console.log(res.data);
+        });
 
+        axios.get(`http://localhost:5001/start`).then((res) => {
+          console.log(res.data);
+        });
         setQuestions(ques);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -115,6 +122,7 @@ const InterviewMEET = (props) => {
     };
 
     if (questions.length === 0) {
+      
       getQ();
     }
   }, [questions]); 
@@ -144,13 +152,13 @@ const InterviewMEET = (props) => {
 
   const startInterview = () => {
     setIfStart(true);
+    console.log("start interview")
+    
     let idx = 0;
     speak(questions[0]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
-        startRecording();
-        startListening();
-        console.log("Recording stopped", mediaBlobUrl);
+      //  console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
             if (prevTime === 0) {
@@ -168,15 +176,32 @@ const InterviewMEET = (props) => {
     qInterval = setInterval(() => {
       if(idx == (questions.length - 1)) {
         clearInterval(qInterval);
+        axios.get(`http://localhost:5000/stop`).then((res1) => {
+        console.log(res1.data);
+        
+        axios.get(`http://localhost:5001/stop`).then((res2) => {
+          console.log(res2.data);
+          
+          // Third API call
+          axios.get(`http://third-api-url`).then((res3) => {
+            console.log(res3.data);
+            // Add any further processing if needed
+          }).catch((error) => {
+            console.error("Error in third API call:", error);
+          });
+        }).catch((error) => {
+          console.error("Error in second API call:", error);
+        });
+      }).catch((error) => {
+        console.error("Error in first API call:", error);
+      });
+        return;
       }
-      stopRecording();
-      stopListening();
-      console.log("this is transcript",transcript);
-      console.log("Recording stopped", mediaBlobUrl);
+      
       speak(questions[++idx]).then((completed) => {
         if (completed) {
           console.log("Speech has finished.");
-          startRecording();
+       
           timingInterval = setInterval(() => {
             setTime((prevTime) => {
               if (prevTime === 0) {
@@ -232,7 +257,7 @@ const InterviewMEET = (props) => {
             </div>
 
             {/* OUR_CAMERA */}
-            <div className=" w-64 h-fit bottom-10 right-10 bg-slate-500 rounded-lg translate-x-10 translate-y-10 border-white border-3 text-wrap text-red-400 font-semibold">
+            {/* <div className=" w-64 h-fit bottom-10 right-10 bg-slate-500 rounded-lg translate-x-10 translate-y-10 border-white border-3 text-wrap text-red-400 font-semibold">
             {myStream ? (
               <ReactPlayer
                 playing
@@ -242,7 +267,7 @@ const InterviewMEET = (props) => {
                 url={myStream}
               />
             ) : "Camera Access Denied"}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

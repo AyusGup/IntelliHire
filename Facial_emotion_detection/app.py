@@ -79,14 +79,15 @@ def stop_api():
 
 @app.route('/start', methods=['GET'])
 def start():
+    print("Video processing started.........")
     start_api()
-
+    
     return "Video processing started."
 
 @app.route('/stop', methods=['GET'])
 def stop():
     stop_api()
-    return "Video processing stopped."
+    return ans
 
 
 
