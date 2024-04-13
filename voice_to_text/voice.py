@@ -1,76 +1,56 @@
-from threading import Thread
-from queue import Queue
-import pyaudio
-import subprocess
-import json
-from vosk import Model, KaldiRecognizer
-import time
+import speech_recognition as sr
+import pyttsx3 
 
-messages = Queue()
-recording = Queue()
+# Global variable to store transcription
+transcription = ""
 
-def start_recording():
-    messages.put(True)
-    record = Thread(target=record_microphone)
-    record.start()
-    transcribe = Thread(target=speech_recognition, args=(recording,))
-    transcribe.start()
+# Initialize the recognizer 
+r = sr.Recognizer() 
 
-def stop_recording():
-    messages.get() 
-    print("Stopped")
+# Function to convert text to speech
+def SpeakText(command):
+    # Initialize the engine
+    engine = pyttsx3.init()
+    engine.say(command) 
+    engine.runAndWait()
 
-p = pyaudio.PyAudio()
-for i in range(p.get_device_count()):
-    print(p.get_device_info_by_index(i))
-p.terminate()
+# Function to start listening and transcription
+def start_listening():
+    global transcription
+    # Infinite loop to continuously listen for user input
+    while True:    
+        # Exception handling to handle runtime exceptions
+        try:
+            # Use the microphone as the source for input
+            with sr.Microphone() as source:
+                # Adjust for ambient noise
+                r.adjust_for_ambient_noise(source, duration=0.2)
+                print("Listening...")            
+                # Listen for the user's input 
+                audio = r.listen(source)
+                print("Recognizing...")            
+                # Using Google to recognize audio
+                MyText = r.recognize_google(audio)
+                MyText = MyText.lower()
+                print("You said:", MyText)
+                # Store the transcription
+                transcription += MyText + "\n"  # Append the new transcription
 
-CHANNELS = 1
-FRAME_RATE = 16000
-RECORD_SECONDS = 20
-AUDIO_FORMAT = pyaudio.paInt16
-SAMPLE_SIZE = 2
+        except sr.RequestError as e:
+            print("Could not request results; {0}".format(e))
 
-def record_microphone(chunk=1024):
-    p = pyaudio.PyAudio()
+        except sr.UnknownValueError:
+            print("Unknown error occurred")
 
-    stream = p.open(format=AUDIO_FORMAT,
-                    channels=CHANNELS,
-                    rate=FRAME_RATE,
-                    input=True,
-                    input_device_index=2,
-                    frames_per_buffer=chunk)
+# Function to stop listening
+def stop_listening():
+    global transcription
+    return transcription  # Return the accumulated transcription
 
-    frames = []
-
-    while not messages.empty():
-        data = stream.read(chunk)
-        frames.append(data)
-        if len(frames) >= (FRAME_RATE * RECORD_SECONDS) / chunk:
-            recording.put(frames.copy())
-            frames = []
-
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
-
-
-model = Model(model_name="vosk-model-en-us-0.22")
-rec = KaldiRecognizer(model, FRAME_RATE)
-rec.SetWords(True)
-
-def speech_recognition(output):
-    while not messages.empty():
-        frames = recording.get()
-        
-        rec.AcceptWaveform(b''.join(frames))
-        result = rec.Result()
-        text = json.loads(result)["text"]
-        
-        cased = subprocess.check_output('python recasepunc/recasepunc.py predict recasepunc/checkpoint', shell=True, text=True, input=text)
-        print(cased)
-        time.sleep(1)
-
-start_recording()
-time.sleep(20)
-stop_recording()
+# Example usage:
+# Start listening
+start_listening()
+# To stop listening, call stop_listening() from another part of your code or API
+# Retrieve the accumulated transcription
+accumulated_transcription = stop_listening()
+print("Accumulated Transcription:\n", accumulated_transcription)

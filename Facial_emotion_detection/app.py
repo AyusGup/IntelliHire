@@ -68,25 +68,13 @@ def stop_api():
     stop_thread.start()
     return ans
 
-<<<<<<< HEAD
-
-# Streamlit UI
-st.title("Face Emotion Analysis")
-
-if st.button("Start Processing"):
-    start_api()
-    time.sleep(20)
-    stop_api()
-    
-=======
 @app.get('/start')
 def start():
     start_api()
     return "Video processing started."
 
 @app.get('/stop')
-def start():
+def stop():
     stop_api()
     return "Video processing stoped."
 
->>>>>>> 17a0c83ec933326962d716cfa2f5239f9df35d60
