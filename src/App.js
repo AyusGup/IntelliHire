@@ -12,12 +12,13 @@ import ManualInterviewMEET from "./components/Interview/ManualMeet";
 import LobbyScreen from "./screens/Lobby";
 import Profile from "./components/Dashboard/profile";
 import Interviewer from "./components/Interview/Interviewer";
-
+import Dictaphone from "./components/Interview/temp";
+import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/profile" element={<Profile />} />
@@ -35,8 +36,18 @@ function App() {
           />
           <Route
             extact
+            path="/faltu"
+            element={<Dictaphone />}
+          />
+          <Route
+            extact
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
             element={<InterviewMEET />}
+          />
+          <Route
+            extact
+            path="/company"
+            element={<CompanyDashboard />}
           />
           <Route
             extact

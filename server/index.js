@@ -6,7 +6,7 @@ const {Server}= require("socket.io");
 const session = require('express-session');
 const { login, logout, callback, submitCustomJson } = require('./controller/hive');
 const app= express();
-
+const {getCandidateList,getScore,PostScore} = require('./controller/score');
 
 const server= http.createServer(app);
 app.use(bodyParser.json({limit: '50mb'}));
@@ -40,6 +40,9 @@ app.get("/login", login);
 app.get("/logout", logout);
 app.get("/callback", callback);
 app.get("/submitCustomJson", submitCustomJson);
+app.post("/setScore",PostScore);
+app.get("/getScore/:username",getScore);
+app.get("/candidateList",getCandidateList);
 
 
 const emailToSocketIdMap = new Map();

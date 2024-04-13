@@ -13,20 +13,29 @@ const InterviewMEET = (props) => {
   const [questions, setQuestions] = useState([]);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [time, setTime] = useState(10);
-  const [myStream, setMyStream] = useState();
-  const [ifStart, setIfStart] =useState(false);
+  const [ifStart,setIfStart] = useState(false);
+  const [myStream,setMyStream] = useState();
   let timingInterval, qInterval;
+
+  // const handleStartRecording = () => {
+  //   startListening();
+  // };
+
+  // const handleStopRecording = () => {
+  //   stopListening();
+  //   setRecordedText(transcript);
+  // };
 
   const handleDataAvailable = useCallback((chunk) => {
     setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
   }, [recordedChunks]);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
+  // const {
+  //   transcript,
+  //   listening,
+  //   resetTranscript,
+  //   browserSupportsSpeechRecognition
+  // } = useSpeechRecognition();
   
   const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
   
@@ -85,10 +94,9 @@ const InterviewMEET = (props) => {
     SpeechRecognition.startListening({continuous: true});
   };
 
-  const stopListening = () => {
-    console.log(transcript, "bkl"); // Log transcript
-    SpeechRecognition.stopListening();
-  };
+  // const stopListening = () => {
+  //   SpeechRecognition.stopListening();
+  // };
 
   // if (!browserSupportsSpeechRecognition) {
   //   return <span>Browser doesn't support speech recognition.</span>;
@@ -148,8 +156,9 @@ const InterviewMEET = (props) => {
     speak(questions[0]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
+        console.log("this is recorded text ",recordedText);
         startRecording();
-        startListening();
+        // startListening();
         console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
@@ -170,13 +179,14 @@ const InterviewMEET = (props) => {
         clearInterval(qInterval);
       }
       stopRecording();
-      stopListening();
-      console.log("this is transcript",transcript);
+      // stopListening();
+      // console.log("this is transcript",transcript);
       console.log("Recording stopped", mediaBlobUrl);
       speak(questions[++idx]).then((completed) => {
         if (completed) {
           console.log("Speech has finished.");
           startRecording();
+          startListening();
           timingInterval = setInterval(() => {
             setTime((prevTime) => {
               if (prevTime === 0) {
