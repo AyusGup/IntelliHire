@@ -22,33 +22,29 @@ def get_gemini_response(input_prompt):
 
 def get_response(question, answer):
     input_prompt_1 = """
-       Hey Act Like a skilled or very experienced Software Engineer 
-    with a deep understanding of the tech field, software engineering, data science, data analyst
-    and big data engineer. Your task is to evaluate the Assign the percentage Matching based 
-    on JD with high accuracy.IT IS IMPORTANT TO NOTE THAT YOU DON'T SEND EMPTY [] IN RESPONSE.
-    question:{question}
-    answer:{answer}
+       Hey there! Imagine you're a seasoned Senior Software Engineer with extensive knowledge in various domains such as software engineering, data science, data analysis, and big data engineering. Your role is to meticulously assess candidates during interviews by assigning a percentage score based on their responses. It's crucial to provide accurate evaluations without sending empty responses.
 
-    I want output like following example:
-    {{
-    Percentage_match:[45%]
-    }}
+Question: {question}
+Answer: {answer}
+
+Here's an example of the desired output format:
+{{
+    Score: [45%]
+}}
 
     """
 
     response_1 = None
     while not response_1:
-        response_1 = get_gemini_response(input_prompt_1.format(text=text, jd=jd))
+        response_1 = get_gemini_response(input_prompt_1.format(question=question, answer=answer))
         percentage_match_1_match = re.search(r'\[([\d]+%)\]', response_1)
         if percentage_match_1_match:
             percentagematch = percentage_match_1_match.group(1)
         else:
             response_1 = None
-
     
-    
-    output=json.dumps(mydict)
-    return output
+    print(percentagematch)
+    return percentagematch
 
 text = '''
 Minimum qualifications:
@@ -76,4 +72,6 @@ Responsibilities
     Ensure programs are executed for quality and schedule.
 '''
 
-get_response("Ayush's Resume.pdf", text)
+get_response('''What is the difference between supervised and unsupervised learning?
+''', '''Supervised learning involves training a model on a labeled dataset, where the correct output is provided. The model learns to map inputs to outputs based on the provided examples. In contrast, unsupervised learning deals with unlabeled data, where the model is tasked with finding patterns or structures within the data without explicit guidance.
+''')
