@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useUser } from "../../context/userProvider";
 import { motion } from "framer-motion";
 import axios from "axios";
-import "./Home.css";
+// import "./Home.css";
 
 
 function Home() {

@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 import Home from "./components/Home/Home";
 import Header from "./components/Layout/header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -33,6 +33,11 @@ function App() {
             extact
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/online"
             element={<LobbyScreen />}
+          />
+          <Route
+            extact
+            path="/faltu"
+            element={<Dictaphone />}
           />
           <Route
             extact

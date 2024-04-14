@@ -240,9 +240,9 @@ const InterviewMEET = (props) => {
 
             {/* time and command component */}
             <div className="w-60 h-40 bg-slate-600 rounded-2xl ">
-              <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={startInterview}>
-                {ifStart ? time: "start"}
-              </div>
+              {/* <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={startInterview}>
+                {ifStart ? time: "start"}{transcript}
+              </div> */}
               <div className="flex w-full h-[30%] justify-around rounded-b-2xl">
                 <button className="h-full w-[49%] bg-slate-400 rounded-bl-2xl hover:bg-slate-600"
                  onClick={() => speak(questions[qid])}>Speak Again</button>
