@@ -7,7 +7,7 @@ import fetch from "../../helper/question";
 import ReactPlayer from "react-player";
 import peer from "../../service/peer";
 import { useSocket } from "../../context/SocketProvider";
-
+import { motion } from "framer-motion";
 const ManualInterviewMEET = (props) => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
