@@ -56,7 +56,7 @@ const Header = () => {
             <div onClick={callHiveSigner}>Login</div>
           ) : (
             <div>
-              <Link to="/profile">Profile</Link>
+              <Link to="/Profile">Profile</Link>
             </div>
           )}
         </div>

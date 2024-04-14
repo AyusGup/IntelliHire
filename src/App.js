@@ -21,7 +21,7 @@ function App() {
         <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/Profile" element={<Profile />} />
           <Route exact path="/Resume" element={<Resume />} />
           <Route exact path="/Interview" element={<Interview />} />
           <Route
@@ -34,26 +34,14 @@ function App() {
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/online"
             element={<LobbyScreen />}
           />
-          <Route
-            extact
-            path="/faltu"
-            element={<Dictaphone />}
-          />
-          <Route
-            extact
-            path="/faltu"
-            element={<Dictaphone />}
-          />
+          <Route extact path="/faltu" element={<Dictaphone />} />
+          <Route extact path="/faltu" element={<Dictaphone />} />
           <Route
             extact
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
             element={<InterviewMEET />}
           />
-          <Route
-            extact
-            path="/company"
-            element={<CompanyDashboard />}
-          />
+          <Route extact path="/company" element={<CompanyDashboard />} />
           <Route
             extact
             path="/Interview/Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/candidate/room/:roomID"
