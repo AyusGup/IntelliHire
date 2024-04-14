@@ -1,15 +1,13 @@
-from flask import Flask,jsonify,request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+from beem import Hive
+from beem.discussions import Query, Discussions
 from app import get_response
-
-
-
 
 app = Flask(__name__)
 CORS(app)
 
-
-idx= 0  # Initialize the index variable to 0
+idx = 0  # Initialize the index variable to 0
 
 @app.route('/', methods=['POST'])
 def receive_blob():
@@ -25,10 +23,7 @@ def receive_blob():
     else:
         return 'No Blob data received', 400
 
-
-
-
-@app.post('/predict')
+@app.route('/predict', methods=['POST'])
 def predict():
     if 'pdf_file' not in request.files:
         return 'No file part', 400
@@ -42,6 +37,34 @@ def predict():
     # Return the result
     return result
 
+@app.route('/posts', methods=['GET'])
+def get_posts():
+    # Get tag from query parameters
+    tag = request.args.get('tag')
+    
+    # Check if tag is provided
+    if not tag:
+        return jsonify({'error': 'Tag parameter is required'}), 400
+
+    # Initialize Hive, Query, and Discussions objects
+    h = Hive()
+    q = Query(limit=10, tag="job")
+    d = Discussions()
+
+    # Fetch posts based on the provided tag
+    posts = d.get_discussions(tag, q)
+
+    # Prepare response data
+    response = []
+    for post in posts:
+        response.append({
+            'author': post['author'],
+            'permlink': post['permlink'],
+            'category': post['category'],
+            'body': post['body']
+        })
+
+    return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True, port=5002)
+    app.run(host='0.0.0.0', debug=True, port=5002)

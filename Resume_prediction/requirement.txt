@@ -1,3 +1,6 @@
 google-generativeai
 python-dotenv
 PyPDF2
+beem
+flask
+flask_cors
