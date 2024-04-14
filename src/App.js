@@ -14,6 +14,8 @@ import Profile from "./components/Dashboard/profile";
 import Interviewer from "./components/Interview/Interviewer";
 import Dictaphone from "./components/Interview/temp";
 import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
+import PostOutput from "./components/Post/output";
+import PostInput from "./components/Post/input";
 function App() {
   return (
     <>
@@ -56,6 +58,16 @@ function App() {
             exact
             path="/Resume/ResumeScore/:ResumeSubmissionID"
             element={<ResumeScore />}
+          />
+          <Route
+            exact
+            path="/post"
+            element={<PostOutput />}
+          />
+          <Route
+            exact
+            path="/inputPost"
+            element={<PostInput />}
           />
           <Route
             exact
