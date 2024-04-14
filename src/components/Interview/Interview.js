@@ -100,7 +100,7 @@ const Interview = () => {
           </div>
           {selectedItem === "online" ? <div className=" w-auto p-2 h-[10%] rounded-sm bg-zinc-700 text-wrap text-white 
           "  id="copy-link">
-            {"http://localhost:3000/Interview/Details/"+typeID+"/"+postID+"/ManualInterviewer/mylobby/online/interviewer/room/"+roomId}
+            {"https://intelli-hire.vercel.app/Interview/Details/"+typeID+"/"+postID+"/ManualInterviewer/mylobby/online/interviewer/room/"+roomId}
           </div> : <></>}
           <div className="absolute bottom-[5%] left-1/2 bg-amber-800 border-1 rounded-sm p-2">
             <Link
