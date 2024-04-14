@@ -253,7 +253,7 @@ const Interviewer = (props) => {
                 className="w-[calc(50%-0.5px)] h-8 text-white rounded-tr-md border-b"
                 onClick={() => speak(questions[qid])}
               >
-                Saale
+                stop
               </button>
             </div>
             <div className="w-full h-[calc(100%-35px)] flex flex-col items-center justify-between px-2 ">

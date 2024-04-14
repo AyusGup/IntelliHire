@@ -83,19 +83,21 @@ async function submitCustomJson(req,res){
     const id = 'this is first to go'; // Unique identifier for the operation
     const data = { message: 'Hello, Hive!' }; // JSON data to submit to the blockchain
     const json = JSON.stringify(data);
-    client.customJson(requiredAuths, requiredPostingAuths, id, json, function (err, res) {
+    let tid = 'ghis';
+    await client.customJson(requiredAuths, requiredPostingAuths, id, json, function (err, res) {
         if (err) {
         console.error('Error broadcasting custom JSON operation:', err, req.session.username);
         } else {
-        console.log('Custom JSON operation broadcasted successfully:', res);
+        console.log('Custom JSON operation broadcasted successfully:', res.result.id);
+        tid = res.result.id;
         }
     });
 
     // client.vote("ag8350961", "david-doran", "vibes-web3-music-contest-week", 10000, function (err, res) {
     //   console.log(err, res)
     // });
-
-    res.json({message: "done sucessfully"})
+    console.log(tid)
+    res.send(tid);
 }
 
 module.exports = {login, logout, callback, submitCustomJson};

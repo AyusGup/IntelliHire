@@ -1,12 +1,14 @@
 .Hero-heading{
-    scale: 0.7;
+    font-size: 4vw;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
     opacity: 0;
-    animation: fade-in ease-in forwards;
+    animation: fade-in ease-in;
     animation-timeline: view();
-    animation-range: 400px 900px; 
+    animation-range: 100px 600px; 
     /* transform: translateX(-50%); */
 }
 @keyframes fade-in {
-    to{scale: 1; opacity: 1;
-    left: 50%;}
+    to{font-size: 7vw; opacity: 1;
+    }
 }

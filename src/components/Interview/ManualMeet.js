@@ -216,7 +216,7 @@ const ManualInterviewMEET = (props) => {
 
           {/* //! isko dekhna h */}
           {myStream && (
-            <button onClick={sendStreams} className="text-white">
+            <button onClick={sendStreams} className="absolute z-50 text-white w-8 h-9 bg-orange-500">
               Send Stream
             </button>
           )}

@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { useReactMediaRecorder, ReactMediaRecorder } from "react-media-recorder";
 import fetch from "../../helper/question";
-import ReactPlayer from "react-player";
-// import WebCam from "react-webcam"
 
 const InterviewMEET = (props) => {
   const { postID, typeID, InterviewID } = useParams();
@@ -227,7 +223,7 @@ const InterviewMEET = (props) => {
           onClick={toggleExitOption}
           className="text-white text-lg absolute top-3 left-3"
         >
-          <img src="" alt="Exit" />
+          exit
         </button>
 
         {/* Main meet */}
@@ -238,8 +234,8 @@ const InterviewMEET = (props) => {
             <div>{questions[qid]}</div>
           </div>
           <div id="RIGHT-SIDE-OPTIONS" className="h-full flex flex-col justify-between">
-            <div className="logo-meet top-10 right-14 h-14 w-14 bg-slate-50 self-end">
-              <img src="" alt="LOGO" />{" "}
+            <div className="logo-meet top-10 right-14 h-fit w-24 bg-slate-50 self-end">
+              <img src="/image-139-304-edited.jpg" alt="LOGO" />{" "}
             </div>
 
             {/* time and command component */}
@@ -280,7 +276,7 @@ const InterviewMEET = (props) => {
           onClick={toggleExitOption}
           className="text-white text-lg absolute top-3 left-3"
         >
-          <img src="" alt="Exit" />
+          <img src="" />
         </button>
         {/* //todo exit confirmation */}
         <div className="w-[300px] h-28 flex flex-col items-center justify-around">
