@@ -51,6 +51,9 @@ const Header = () => {
           <div>
             <Link to="/Interview">Interview </Link>
           </div>
+          <div>
+            <Link to="/post">Jobs </Link>
+          </div>
 
           {user.token === "" ? (
             <div onClick={callHiveSigner}>Login</div>
