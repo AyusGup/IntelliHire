@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useUser } from "../../context/userProvider";
 import { motion } from "framer-motion";
 import axios from "axios";
-// import "./Home.css";
+import "./Home.css";
 
 
 function Home() {
@@ -24,7 +24,7 @@ function Home() {
         expiresIn: expires_in
       })
   
-      fetch(`http://localhost:8000/callback?access_token=${access_token}&username=${username}`, {
+      fetch(`https://intellihire-4shu.onrender.com/callback?access_token=${access_token}&username=${username}`, {
       method: "GET",
       })
       .then(data => {
@@ -32,7 +32,7 @@ function Home() {
       })
       .catch(error => console.error('Error:', error));
 
-      // axios.post(`http://localhost:8000/setScore?token=${access_token}&username=${username}`,{
+      // axios.post(`https://intellihire-4shu.onrender.com/setScore?token=${access_token}&username=${username}`,{
       //   username : "abhimanyu-jha", 
       //   faceScore : 10,
       //   resumeScore : 8,
