@@ -248,7 +248,6 @@ const ManualInterviewMEET = (props) => {
               <>
                 <ReactPlayer
                   playing
-                  muted
                   height="100%"
                   width="100%"
                   // className="w-3/5 h-3/4 rounded-lg bg-slate-500"
@@ -291,7 +290,6 @@ const ManualInterviewMEET = (props) => {
             {myStream && (
               <ReactPlayer
                 playing
-                muted
                 height="100%"
                 width="100%"
                 url={myStream}
