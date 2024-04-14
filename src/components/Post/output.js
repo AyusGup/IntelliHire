@@ -6,24 +6,24 @@ export default function PostOutput() {
   const [selectedTag, setSelectedTag] = useState('');
   const [cards, setCards] = useState([
     {
-      author: "John Doe",
-      category: ["react", "javascript"],
+      author: "rzc24-nftbbg",
+      category: "hive-173575",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget nisi vitae ex accumsan gravida.",
-      permLink: "https://example.com/card1"
+      permlink: "a-job-without-a-job-description"
     },
     {
       author: "Jane Smith",
-      category: ["react", "redux"],
+      category: "react",
       body: "Sed pulvinar augue vel leo commodo, nec interdum tortor viverra.",
-      permLink: "https://example.com/card2"
+      permlink: "https://example.com/card2"
     },
     {
       author: "Alice Johnson",
-      category: ["react", "hooks"],
+      category: "react",
       body: "Phasellus scelerisque velit eget velit placerat, a fermentum libero condimentum.",
-      permLink: "https://example.com/card3"
-    },
-    // Add more sample cards here if needed
+      permlink: "https://example.com/card3"
+    }
+    // Add more default cards here if needed
   ]);
 
   const handleSearchChange = (event) => {
@@ -38,7 +38,7 @@ export default function PostOutput() {
     // Function to fetch cards from API
     const fetchCards = async () => {
       try {
-        const response = await fetch('https://api.example.com/cards');
+        const response = await fetch(`http://api.call/${selectedTag}`);
         if (!response.ok) {
           throw new Error('Failed to fetch cards');
         }
@@ -49,12 +49,12 @@ export default function PostOutput() {
       }
     };
 
-    fetchCards(); // Call the fetchCards function when the component mounts
-  }, []); // Empty dependency array means this effect runs only once, on mount
+    fetchCards(); // Call the fetchCards function when the selectedTag changes
+  }, [selectedTag]); // Include selectedTag as a dependency in useEffect
 
   const filteredCards = cards.filter((card) =>
-    card.category.some((tag) => tag.includes(searchTerm))
-  ).filter((card) => selectedTag === '' || card.category.includes(selectedTag));
+    card.category.includes(searchTerm) // Change to direct check since category is not an array
+  ).filter((card) => selectedTag === '' || card.category === selectedTag); // Change to direct equality check
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-wrap justify-center items-start p-4 mt-[80px]">
@@ -70,13 +70,15 @@ export default function PostOutput() {
         onChange={handleTagChange}
         className="border border-gray-300 rounded-md px-3 py-2 mb-4 bg-gray-800 text-white"
       >
-        <option value="">All Category</option>
-        {Array.from(new Set(cards.flatMap(card => card.category))).map((tag, index) => (
-          <option key={index} value={tag}>{tag}</option>
-        ))}
+        <option value="Trending">Trending</option>
+        <option value="Hot">Hot</option>
+        <option value="Active">Active</option>
+        <option value="Created">Created</option>
+        <option value="Promoted">Promoted</option>
+        <option value="Blog">Blog</option>
       </select>
       {filteredCards.map((card, index) => (
-        <EventCard key={index} author={card.author} tags={card.category} body={card.body} permLink={card.permLink}/>
+        <EventCard key={index} author={card.author} category={card.category} body={card.body} permlink={card.permlink}/>
       ))}
     </div>
   );

@@ -2,16 +2,6 @@ import React, { useState } from "react";
 import imag from './pic.png';
 const EventCard = (props) => {
   
-  function readMore() {
-    window.open(props.data.readmore, "_blank");
-    return;
-  }
-
-  function openlink() {
-    window.open(props.data.unstop, "_blank");
-    return;
-  }
-
 
   return (
     <>
@@ -46,11 +36,11 @@ const EventCard = (props) => {
         <div className="w-fit text-2">
           <a
             className="font-bold text-xl underline text-yellow-400 pr-5 "
-            href={props.permlink}
+            href={"https://hive.blog/"+props.category+"/@"+props.author+"/"+props.permlink}
             target="_blank"
             referrerPolicy="no-referrer"
           >
-            Read more
+            Go To Post
           </a>
         </div>
 
