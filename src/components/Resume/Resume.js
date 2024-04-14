@@ -15,7 +15,7 @@ const Resume = () => {
     formData.append("text_data", form.message);
 
     axios
-      .post("http://localhost:5000/predict", formData, {
+      .post("http://localhost:5002/predict", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

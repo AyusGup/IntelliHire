@@ -1,3 +1,5 @@
+from flask import Flask, jsonify
+from flask_cors import CORS
 import tensorflow as tf
 import librosa
 import numpy as np
@@ -5,6 +7,9 @@ import sounddevice as sd
 import queue
 import threading
 import time
+
+app = Flask(__name__)
+CORS(app)
 
 average_probability=0
 # Load the pre-trained model
@@ -79,9 +84,20 @@ def stop_analysis():
     else:
         print("Analysis is not running.")
 
-# Example usage:
-start_analysis()
-time.sleep(10)  # Run analysis for 10 seconds (adjust as needed)
-stop_analysis()
 
-print("Average probability:", average_probability)
+
+@app.route('/start', methods=['GET'])
+def start():
+    start_analysis()
+    print("Voice processing started.")
+    return "Voice processing started."
+
+@app.route('/stop', methods=['GET'])
+def stop():
+    stop_analysis()
+    return average_probability
+
+# print("Average probability:", average_probability)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=False, port=5001)

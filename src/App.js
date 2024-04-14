@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 import Home from "./components/Home/Home";
 import Header from "./components/Layout/header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,13 +13,12 @@ import LobbyScreen from "./screens/Lobby";
 import Profile from "./components/Dashboard/profile";
 import Interviewer from "./components/Interview/Interviewer";
 import Dictaphone from "./components/Interview/temp";
-import CompanyDashboard from "./components/Dashboard/CompanyDashboard";import Dictaphone from "./components/Interview/temp";
-
+import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
 function App() {
   return (
     <>
       <BrowserRouter>
-        {/* <Header /> */}
+        <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/profile" element={<Profile />} />

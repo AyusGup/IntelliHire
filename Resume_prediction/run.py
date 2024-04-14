@@ -1,15 +1,9 @@
 from flask import Flask,jsonify,request
 from flask_cors import CORS
 from app import get_response
-from Facial_emotion_detection.app import start_api
-from Facial_emotion_detection.app import stop_api
 
-import os
-# Define the directory path
-directory = '../Facial_emotion_detection/'
 
-# List the contents of the directory
-contents = os.listdir(directory)
+
 
 app = Flask(__name__)
 CORS(app)
@@ -50,4 +44,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0',debug=True, port=5002)

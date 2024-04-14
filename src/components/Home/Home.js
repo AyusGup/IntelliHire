@@ -4,7 +4,9 @@ import React, { useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
 import { useUser } from "../../context/userProvider";
 import { motion } from "framer-motion";
-import "./Home.css";
+import axios from "axios";
+// import "./Home.css";
+
 
 function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,13 +14,38 @@ function Home() {
   const username = searchParams.get("username");
   const expires_in = searchParams.get("expires_in");
   const [profile,setProfile] = useUser();
-  if(access_token && username && expires_in){
-    setProfile({
-      token:access_token,
-      userName:username,
-      expiresIn: expires_in
-    })
-  }
+  
+
+  useEffect(() => {
+    if(access_token && username && expires_in){
+      setProfile({
+        token:access_token,
+        userName:username,
+        expiresIn: expires_in
+      })
+  
+      fetch(`http://localhost:8000/callback?access_token=${access_token}&username=${username}`, {
+      method: "GET",
+      })
+      .then(data => {
+        console.log(data)
+      })
+      .catch(error => console.error('Error:', error));
+
+      // axios.post(`http://localhost:8000/setScore?token=${access_token}&username=${username}`,{
+      //   username : "abhimanyu-jha", 
+      //   faceScore : 10,
+      //   resumeScore : 8,
+      //   speechScore : 6,
+      //   generalScore: 8
+      // })
+      // .then((data) => {console.log(data)})
+      // .then(data => {
+      //   console.log(data)
+      // })
+      // .catch(error => console.error('Error:', error));
+    }
+  }, [access_token, username, expires_in]);
   
   // if (access_token && username) {
   //   axios.get(`https://490bj8xz-3001.inc1.devtunnels.ms/callback?access_token=${access_token}&username=${username}`)
@@ -36,12 +63,12 @@ function Home() {
     <>
       {/* <Header/> */}
       <div className="w-full h-full text-white p-0 mt-20 bg-slate-950">
-        <div className="w-full h-[150vh] flex justify-center items-center relative">
+        <div className="w-full h-[100vh] flex justify-center items-center relative">
           <p className="Hero-heading text-white font-extrabold ">Intellihire</p>
           {/* <p className="text-[1vw] absolute  top-[130vh] left-[60%]">Want to clear Interview for your exam</p>
             <p className="text-[1vw] absolute top-[132vh] left -[60%]">But couldn't</p> */}
         </div>
-        <div className="absolute top-[calc(150vh-300px)] left-0 ">
+        <div className="absolute top-[calc(100vh-300px)] left-0 ">
           <img src="RobotTalk.png" alt="Talk" width="500px" />
         </div>  
 
@@ -85,28 +112,27 @@ function Home() {
         </div>
       </div>
 
-      <div id="ourGoals" className="w-full h-screen flex items-center justify-center">
-        <div className="p-3 w-fit h-fit bg-slate-800 border border-[bg-slate-700] rounded-md">
+      <div id="ourGoals" className="w-full h-screen flex items-center justify-center gap-10">
+        <div className=" w-fit h-80 bg-slate-800 border border-[bg-slate-700] rounded-md">
           <p className="font-semibold">
-            Huge gap between student and Intrustries standards
+            Our Problem
           </p>{" "}
-          <p>
-            We provide playground for prePlacement Practices by providing them
-            relevant question-set company specific.
-          </p>
+          <p>Huge gap between College Environment and Industry Standards.</p>
+          <p>Hiring process costly heavy and time taking.</p>
+          <p>Lack of platform for practicing the soft skills.</p>
         </div>
 
-        <div className="p-3 w-fit h-fit bg-slate-800 border border-[bg-slate-700] rounded-md">
+        <div className=" w-fit h-80 bg-slate-800 border border-[bg-slate-700] rounded-md">
           <p className="font-semibold">
-            Huge gap between student and Intrustries standards
+            Our Solution
           </p>{" "}
-          <p>
-            We provide playground for prePlacement Practices by providing them
-            relevant question-set company specific.
-          </p>
+          <p>We are creating new benchmarks to filter out the potential candidates.</p>
+          <p>We provide the relevant question set company specific.</p>
+          <p>We ease the process of hiring for company.</p>
+          <p>We reduce the cost of hiring per person.</p>
         </div>
 
-        <div className="p-3 w-fit h-fit bg-slate-800 border border-[bg-slate-700] rounded-md">
+        {/* <div className="p-3 w-fit h-fit bg-slate-800 border border-[bg-slate-700] rounded-md">
           <p className="font-semibold">
             Huge gap between student and Intrustries standards
           </p>{" "}
@@ -114,7 +140,7 @@ function Home() {
             We provide playground for prePlacement Practices by providing them
             relevant question-set company specific.
           </p>
-        </div>
+        </div> */}
       </div>
 
       </div>

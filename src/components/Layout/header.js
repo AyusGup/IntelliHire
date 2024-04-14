@@ -40,7 +40,7 @@ const Header = () => {
         id="layout-header"
       >
         <div>
-          <img src="/Logo.png" alt="Logo" width="180px" />
+          <img src="/Logo.png" alt="Logo" width="150px" />
         </div>
         <div className="w-fit h-full flex text-white gap-6 px-3">
           <div>
@@ -52,12 +52,9 @@ const Header = () => {
           <div>
             <Link to="/Interview">Interview </Link>
           </div>
-          <div>
-            <Link to="/Complete-Interview">Preplacement </Link>
-          </div>
-          {user.token === "" ? <button onClick={callHiveSigner}>
+          {user.token === "" ? <button onClick={callHiveSigner} >
             Login
-          </button>: <Link to="/profile">
+          </button> : <Link to="/profile">
             Profile
           </Link>}
         </div>

@@ -37,11 +37,12 @@ export default function CompanyDashboard() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto mt-8 text-black">
+        < div className='w-full h-screen flex justify-center items-center bg-sky-950'>
+        <div className=" w-96 mx-auto mt-8 text-white bg-black">
             <h2 className="text-2xl font-bold mb-4">Sorted Usernames</h2>
             <div className="flex mb-4">
                 <label htmlFor="list" className="mr-2">Select List:</label>
-                <select id="list" value={selectedList} onChange={handleListChange} className="border rounded px-2 py-1">
+                <select id="list" value={selectedList} onChange={handleListChange} className="border rounded px-2 py-1 text-black">
                     <option value="faceScore">Face Score</option>
                     <option value="resumeScore">Resume Score</option>
                     <option value="speechScore">Speech Score</option>
@@ -51,10 +52,11 @@ export default function CompanyDashboard() {
                 <h3 className="text-lg font-semibold mb-2">Sorted by {selectedList}</h3>
                 <ul>
                     {selectedListData.map((username, index) => (
-                        <li key={index} className="mb-1">{username}</li>
+                        <li key={index} className="mb-1">{username}<button className='w-fit h-fit p-1 rounded-md bg-orange-600'>Interview</button></li> 
                     ))}
                 </ul>
             </div>
+        </div>
         </div>
     );
 };

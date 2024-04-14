@@ -1,20 +1,31 @@
 const ScoreCard = require('../models/ScoreCard'); 
+const {submitCustomJson} = require('./hive');
 const PostScore = async (req, res) => {
-    try {
-      const { username, tokenID, faceScore, resumeScore, speechScore, generalScore } = req.body;
-  
-      const scoreCard = new ScoreCard({
-        username,
-        tokenID,
-        faceScore,
-        resumeScore,
-        speechScore,
-        generalScore
+  try {
+    const { username, faceScore, resumeScore, speechScore, generalScore } = req.body;
+    
+    submitCustomJson(req, res)
+      .then(async(data) => {
+        const tokenID = data;
+        console.log(tokenID);
+        const scoreCard = new ScoreCard({
+          username,
+          tokenID,
+          faceScore,
+          resumeScore,
+          speechScore,
+          generalScore
+        });
+    
+        await scoreCard.save();
+        
+        // Any further processing after saving the score card
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        // Handle errors appropriately
       });
-  
-      await scoreCard.save();
-  
-      res.status(201).json(scoreCard);
+      
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Server error' });

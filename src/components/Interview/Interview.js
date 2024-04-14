@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Interview = () => {
   const [postID, setPostID] = useState("General");
@@ -16,9 +17,7 @@ const Interview = () => {
     setSelectedItem(item);
     console.log(selectedItem);
     const InterviewerLink = document.getElementById("copy-link");
-    if (InterviewerLink) {
-       setRoomId(getRandomNumber(1, 100));
-    }
+    setRoomId(getRandomNumber(1, 100));
   };
 
   return (
@@ -63,37 +62,46 @@ const Interview = () => {
 
         <div className="h-screen w-full flex flex-col items-center justify-center relative snap-center">
           <div className="flex w-1/2 h-1/2 justify-around">
-            <div
-              onClick={() => handleItemClick("bot")}
-              className="w-[10vw] h-[10vw] inline-block bg-slate-500 text-white cursor-pointer"
-            >
-              Bot1
-            </div>
-            <div
-              onClick={() => handleItemClick("bot")}
-              className="w-[10vw] h-[10vw] inline-block bg-slate-500 text-white cursor-pointer"
-            >
-              Bot2
-            </div>
+            {/* <div
+              className="w-[10vw] h-[10vw] inline-block bg-slate-500 "
+            > */}
+              <motion.div
+                className="h-40 w-60 border-2 bg-green-400 text-white cursor-pointer flex justify-center items-center text-xl"
+                whileHover={{ scale: 1.1 }}
+                onClick={() => handleItemClick("bot")}
+                // whileTap={{ scale: 0.9 }}
+              >
+                Bot
+              </motion.div>
+            {/* </div> */}
             {/* <div className="w-10 h-12 inline-block bg-slate-500 text-white">
               AI3
             </div>
             <div className="w-10 h-12 inline-block bg-slate-500 text-white">
               AI4
             </div> */}
-            <div
+            
+            <motion.div
+                className="h-40 w-60 border-2 bg-green-400 text-white cursor-pointer flex justify-center items-center text-xl"
+                whileHover={{ scale: 1.1 }}
+                onClick={() => handleItemClick("online")}
+                // whileTap={{ scale: 0.9 }}
+              >
+                online
+              </motion.div>
+            {/* <div
               onClick={() => handleItemClick("online")}
               className={
                 " cursor-pointer w-[10vw] h-[10vw] inline-block text-white bg-slate-500"
               }
             >
               ONline
-            </div>
+            </div> */}
           </div>
-          <div className=" w-1/4 h-[10%] rounded-sm bg-zinc-700 text-wrap text-white 
+          {selectedItem === "online" ? <div className=" w-auto p-2 h-[10%] rounded-sm bg-zinc-700 text-wrap text-white 
           "  id="copy-link">
             {"http://localhost:3000/Interview/Details/"+typeID+"/"+postID+"/ManualInterviewer/mylobby/online/interviewer/room/"+roomId}
-          </div>
+          </div> : <></>}
           <div className="absolute bottom-[5%] left-1/2 bg-amber-800 border-1 rounded-sm p-2">
             <Link
               // to={"Details/" + postID + "/" + typeID + "/ManualInterviewer/Hardik"}

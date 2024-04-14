@@ -16,15 +16,15 @@ const scoreCardSchema = new mongoose.Schema({
   },
   resumeScore: {
     type: Number,
-    required: true
+    default: 0
   },
   speechScore: {
     type: Number,
-    required: true
+    default: 0
   },
   generalScore: {
     type: Number,
-    required: true
+    default: 0
   }
 });
 
