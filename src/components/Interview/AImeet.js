@@ -10,12 +10,15 @@ const InterviewMEET = (props) => {
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [time, setTime] = useState(10);
   const [myStream, setMyStream] = useState();
-  const [ifStart, setIfStart] =useState(false);
+  const [ifStart, setIfStart] = useState(false);
   let timingInterval, qInterval;
 
-  const handleDataAvailable = useCallback((chunk) => {
-    setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
-  }, [recordedChunks]);
+  const handleDataAvailable = useCallback(
+    (chunk) => {
+      setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
+    },
+    [recordedChunks]
+  );
 
   // const {
   //   transcript,
@@ -23,9 +26,9 @@ const InterviewMEET = (props) => {
   //   resetTranscript,
   //   browserSupportsSpeechRecognition
   // } = useSpeechRecognition();
-  
+
   // const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
-  
+
   // let {
   //   liveStream,
   //   stopRecording,
@@ -54,7 +57,7 @@ const InterviewMEET = (props) => {
   // async function callTheapi(recordedChunks) {
   //   const formData = new FormData();
   //   formData.append('mergedBlob', recordedChunks, 'recording.webm');
-  
+
   //   try {
   //     const response = await axios.post('http://localhost:5000/', formData,  {headers: {
   //       "Content-Type": "multipart/form-data",
@@ -73,7 +76,6 @@ const InterviewMEET = (props) => {
   //   const mergedBlob = new Blob(recordedChunks, { type: 'video/webm' });
   //   callTheapi(mergedBlob);
   // }
-
 
   // const startListening = () => {
   //   resetTranscript(); // Reset transcript
@@ -118,11 +120,9 @@ const InterviewMEET = (props) => {
     };
 
     if (questions.length === 0) {
-      
       getQ();
     }
-  }, [questions]); 
-
+  }, [questions]);
 
   //todo Remove the header from the meet
   const RemoveHeader = document.getElementById("layout-header");
@@ -148,13 +148,13 @@ const InterviewMEET = (props) => {
 
   const startInterview = () => {
     setIfStart(true);
-    console.log("start interview")
-    
+    console.log("start interview");
+
     let idx = 0;
     speak(questions[0]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
-      //  console.log("Recording stopped", mediaBlobUrl);
+        //  console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
           setTime((prevTime) => {
             if (prevTime === 0) {
@@ -167,37 +167,44 @@ const InterviewMEET = (props) => {
       }
     });
 
-    
-
     qInterval = setInterval(() => {
-      if(idx == (questions.length - 1)) {
+      if (idx == questions.length - 1) {
         clearInterval(qInterval);
-        axios.get(`http://localhost:5000/stop`).then((res1) => {
-        console.log(res1.data);
-        
-        axios.get(`http://localhost:5001/stop`).then((res2) => {
-          console.log(res2.data);
-          
-          // Third API call
-          axios.get(`http://third-api-url`).then((res3) => {
-            console.log(res3.data);
-            // Add any further processing if needed
-          }).catch((error) => {
-            console.error("Error in third API call:", error);
+        axios
+          .get(`http://localhost:5000/stop`)
+          .then((res1) => {
+            console.log(res1.data);
+
+            axios
+              .get(`http://localhost:5001/stop`)
+              .then((res2) => {
+                console.log(res2.data);
+
+                // Third API call
+                axios
+                  .get(`http://third-api-url`)
+                  .then((res3) => {
+                    console.log(res3.data);
+                    // Add any further processing if needed
+                  })
+                  .catch((error) => {
+                    console.error("Error in third API call:", error);
+                  });
+              })
+              .catch((error) => {
+                console.error("Error in second API call:", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Error in first API call:", error);
           });
-        }).catch((error) => {
-          console.error("Error in second API call:", error);
-        });
-      }).catch((error) => {
-        console.error("Error in first API call:", error);
-      });
         return;
       }
-      
+
       speak(questions[++idx]).then((completed) => {
         if (completed) {
           console.log("Speech has finished.");
-       
+
           timingInterval = setInterval(() => {
             setTime((prevTime) => {
               if (prevTime === 0) {
@@ -210,30 +217,30 @@ const InterviewMEET = (props) => {
         }
       });
 
-      setQid(qid => qid+1);
+      setQid((qid) => qid + 1);
     }, 20 * 1000); // time for question + answer
-  }
-  
+  };
 
   return (
     <>
       <div className="w-full h-screen bg-slate-950 m-0 p-0 z-9 flex items-center">
         {/* EXIT */}
+
         <button
           onClick={toggleExitOption}
-          className="text-white text-lg absolute top-3 left-3"
+          className="text-white text-lg absolute top-3 left-3 z-10 font-extrabold"
         >
-          exit
+          EXIT
         </button>
-
         {/* Main meet */}
         <div className="main-meet flex w-11/12 h-4/5 m-auto items-center px-auto justify-around">
-        <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-indigo-950 text-slate-50 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
-              
-            
+          <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-indigo-950 text-slate-50 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
             <div>{questions[qid]}</div>
           </div>
-          <div id="RIGHT-SIDE-OPTIONS" className="h-full flex flex-col justify-between">
+          <div
+            id="RIGHT-SIDE-OPTIONS"
+            className="h-full flex flex-col justify-between"
+          >
             <div className="logo-meet top-10 right-14 h-fit w-24 bg-slate-50 self-end">
               <img src="/image-139-304-edited.jpg" alt="LOGO" />{" "}
             </div>
@@ -244,8 +251,12 @@ const InterviewMEET = (props) => {
                 {ifStart ? time: "start"}{transcript}
               </div> */}
               <div className="flex w-full h-[30%] justify-around rounded-b-2xl">
-                <button className="h-full w-[49%] bg-slate-400 rounded-bl-2xl hover:bg-slate-600"
-                 onClick={() => speak(questions[qid])}>Speak Again</button>
+                <button
+                  className="h-full w-[49%] bg-slate-400 rounded-bl-2xl hover:bg-slate-600"
+                  onClick={() => speak(questions[qid])}
+                >
+                  Speak Again
+                </button>
                 <button className="rounded-br-2xl h-full w-[49%] bg-slate-400 hover:bg-slate-600">
                   Next
                 </button>

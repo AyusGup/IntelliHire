@@ -208,20 +208,27 @@ const ManualInterviewMEET = (props) => {
   return (
     <>
       <div className="w-full h-screen bg-slate-950 m-0 p-0 z-9 flex flex-col justify-center">
-      {/* <div className="w-full h-1/10"> */}
+        {/* <div className="w-full h-1/10"> */}
         <div className="text-white text-lg absolute top-3 left-3 z-10">
-          <button onClick={toggleExitOption}>
-            <img src="" alt="Exit" />
+          <button
+            onClick={toggleExitOption}
+            className="text-white text-lg absolute top-3 left-3 z-10 font-extrabold"
+          >
+            EXIT
           </button>
-
           {/* //! isko dekhna h */}
           {myStream && (
-            <button onClick={sendStreams} className="absolute z-50 text-white w-8 h-9 bg-orange-500">
+            <motion.div
+              className="h-16 w-32 border-2 bg-orange-600 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={sendStreams}
+            >
               Send Stream
-            </button>
+            </motion.div>
           )}
-        {/* </div> */}
-      </div>
+          {/* </div> */}
+        </div>
         {remoteSocketId ? (
           <p className="text-[rgb(0,255,0)] text-lg font-semibold absolute bottom-10 left-4">
             Connected
@@ -288,12 +295,7 @@ const ManualInterviewMEET = (props) => {
           {/* //! OUR_CAMERA */}
           <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-slate-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
             {myStream && (
-              <ReactPlayer
-                playing
-                height="100%"
-                width="100%"
-                url={myStream}
-              />
+              <ReactPlayer playing height="100%" width="100%" url={myStream} />
             )}
           </div>
         </div>
@@ -306,9 +308,9 @@ const ManualInterviewMEET = (props) => {
       >
         <button
           onClick={toggleExitOption}
-          className="text-white text-lg absolute top-3 left-3"
+          className="text-white text-lg absolute top-3 left-3 z-10 font-extrabold"
         >
-          <img src="" alt="Exit" />
+          EXIT
         </button>
         {/* //todo exit confirmation */}
         <div className="w-[300px] h-28 flex flex-col items-center justify-around">

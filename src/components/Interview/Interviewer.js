@@ -22,9 +22,13 @@ const Interviewer = (props) => {
     console.log(`Email ${email} joined room`);
     setRemoteSocketId(id);
   }, []);
-  useEffect(()=>{
-    socket.emit("room:join", { email:InterviewID, room:roomID,type:"interview"});
-  },[postID,typeID,InterviewID,roomID]);
+  useEffect(() => {
+    socket.emit("room:join", {
+      email: InterviewID,
+      room: roomID,
+      type: "interview",
+    });
+  }, [postID, typeID, InterviewID, roomID]);
   const handleCallUser = useCallback(async () => {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -187,19 +191,15 @@ const Interviewer = (props) => {
 
   return (
     <>
-      <div className="w-full h-16 flex bg-slate-600 ">
+      <div className="w-full h-16 flex bg-slate-950 ">
         <button
           onClick={toggleExitOption}
-          className="text-white text-lg absolute top-3 left-3 z-10"
+          className="text-white text-lg absolute top-3 left-3 z-10 font-extrabold"
         >
-          <img src="" alt="Exit" />
+          EXIT
         </button>
       </div>
-      {remoteSocketId && (
-        <button onClick={handleCallUser} className=" text-red-400">
-          CALL
-        </button>
-      )}
+
       <div className="w-full h-screen bg-slate-950 m-0 p-0 z-9 flex items-center">
         {/* EXIT */}
 
@@ -232,13 +232,22 @@ const Interviewer = (props) => {
               <>
                 <ReactPlayer
                   playing
-
                   height="100%"
                   width="100%"
                   // className="w-3/5 h-3/4 rounded-lg bg-slate-500"
                   url={remoteStream}
                 />
               </>
+            )}
+            {remoteSocketId && (
+              <motion.div
+                className="h-16 w-32 border-2 bg-orange-600 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleCallUser}
+              >
+                Admit
+              </motion.div>
             )}
           </div>
           <div className="w-1/3 h-1/2 bg-[rgba(36,29,66,0.39)] hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] rounded-md ">
@@ -302,13 +311,7 @@ const Interviewer = (props) => {
         >
           {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} /> */}
           {myStream && (
-            <ReactPlayer
-              playing
-
-              height="100%"
-              width="100%"
-              url={myStream}
-            />
+            <ReactPlayer playing height="100%" width="100%" url={myStream} />
           )}
         </motion.div>
       </div>
@@ -321,9 +324,9 @@ const Interviewer = (props) => {
       >
         <button
           onClick={toggleExitOption}
-          className="text-white text-lg absolute top-3 left-3"
+          className="text-white text-lg absolute top-3 left-3 z-10 font-extrabold"
         >
-          <img src="" alt="Exit" />
+          EXIT
         </button>
         {/* //todo exit confirmation */}
         <div className="w-[300px] h-28 flex flex-col items-center justify-around">
