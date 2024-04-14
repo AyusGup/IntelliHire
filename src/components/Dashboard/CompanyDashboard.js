@@ -10,7 +10,7 @@ export default function CompanyDashboard() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://intellihire-4shu.onrender.com/candidateList');
+                const response = await axios.get('http://localhost:8000/candidateList');
                 const { faceScoreSort, resumeScoreSort, speechScoreSort } = response.data;
                 setFaceScoreSort(faceScoreSort);
                 setResumeScoreSort(resumeScoreSort);

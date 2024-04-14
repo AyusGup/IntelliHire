@@ -4,7 +4,7 @@ const {handlenewUser} = require('./user');
 
 const client = new Client({
     app: 'ag8350961', // Replace 'your-app-name' with your actual app name
-    callbackURL: 'https://intelli-hire.vercel.app/', // Replace with your callback URL
+    callbackURL: 'http://localhost:3000/', // Replace with your callback URL
     accessToken: '',
     scope: ['custom_json', 'comment', 'vote'] 
 });

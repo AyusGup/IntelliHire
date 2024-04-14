@@ -8,7 +8,7 @@ const Header = () => {
   const [user, setUser] = useUser();
 
   const callHiveSigner = () => {
-    fetch("https://intellihire-4shu.onrender.com/login", {
+    fetch("http://localhost:8000/login", {
       method: "GET",
     })
       .then((response) => response.json())
@@ -21,7 +21,7 @@ const Header = () => {
 
   const revokeHiveSigner = () => {
     console.log("revoke");
-    fetch("https://intellihire-4shu.onrender.com/logout", {
+    fetch("http://localhost:8000/logout", {
       method: "GET",
     })
       .then((response) => response.json())
