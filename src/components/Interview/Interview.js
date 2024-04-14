@@ -109,7 +109,7 @@ const Interview = () => {
           "
               id="copy-link"
             >
-              {"http://localhost:3000/Interview/Details/" +
+              {"https://intelli-hire.vercel.app/Interview/Details/" +
                 typeID +
                 "/" +
                 postID +
