@@ -6,31 +6,30 @@ import { useUser } from "../../context/userProvider";
 const Header = () => {
   const [loginVisible, setLoginVisible] = useState(false);
   const [user, setUser] = useUser();
-  
 
   const callHiveSigner = () => {
-    fetch('https://intellihire-4shu.onrender.com/login', {
-    method: "GET",
+    fetch("https://intellihire-4shu.onrender.com/login", {
+      method: "GET",
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         window.location.href = data.url;
-    })
-    .catch(error => console.error('Error:', error));
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   const revokeHiveSigner = () => {
-    console.log("revoke")
-    fetch('https://intellihire-4shu.onrender.com/logout', {
-    method: "GET",
+    console.log("revoke");
+    fetch("https://intellihire-4shu.onrender.com/logout", {
+      method: "GET",
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         window.location.href = data.url;
-    })
-    .catch(error => console.error('Error:', error));
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   return (
@@ -42,7 +41,7 @@ const Header = () => {
         <div>
           <img src="/Logo.png" alt="Logo" width="150px" />
         </div>
-        <div className="w-fit h-full flex text-white gap-6 px-3">
+        <div className="w-fit h-full flex text-white gap-[3vw] px-3 font-bold">
           <div>
             <Link to="/">HOME </Link>
           </div>
@@ -52,11 +51,14 @@ const Header = () => {
           <div>
             <Link to="/Interview">Interview </Link>
           </div>
-          {user.token === "" ? <button onClick={callHiveSigner} >
-            Login
-          </button> : <Link to="/profile">
-            Profile
-          </Link>}
+
+          {user.token === "" ? (
+            <div onClick={callHiveSigner}>Login</div>
+          ) : (
+            <div>
+              <Link to="/profile">Profile</Link>
+            </div>
+          )}
         </div>
       </div>
       <Dashboard visibity={loginVisible} />

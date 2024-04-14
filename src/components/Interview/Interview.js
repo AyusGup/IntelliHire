@@ -6,7 +6,7 @@ const Interview = () => {
   const [postID, setPostID] = useState("General");
   const [typeID, setTypeID] = useState("Behavioural");
 
-  const [roomId,setRoomId] = useState(null);
+  const [roomId, setRoomId] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
 
   function getRandomNumber(min, max) {
@@ -22,15 +22,18 @@ const Interview = () => {
 
   return (
     <>
-      <div className="w-full h-full bg-gray-950  m-0 overfolw-scroll snap-x">
+      <div className="w-full h-full bg-gray-950  m-0 ">
         {/* <div className="h-screen flex flex-col items-center justify-around "> */}
         {/* <div className="w-full h-[200vh]  bg-slate-200 flex flex-col justify-around"> */}
         <div className="h-screen w-full flex flex-col items-center justify-center snap-center">
-          <p className="text-2xl text-slate-300"> Choose the POST</p>
+          <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
+            {" "}
+            Choose the POST
+          </p>
           <select
             name="POST"
             id="POST"
-            className="w-1/4 h-[10%] text-3xl rounded-xl"
+            className="border-4 border-white w-1/4 h-[10%] text-3xl font-bold rounded-xl bg-yellow-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] "
             onChange={(e) => {
               setPostID(e.target.value);
             }}
@@ -43,11 +46,14 @@ const Interview = () => {
           </select>
         </div>
         <div className="h-screen w-full flex flex-col items-center justify-center snap-center">
-          <p className="text-2xl text-slate-300"> Choose the POST</p>
+          <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
+            {" "}
+            Choose the POST
+          </p>
           <select
             name="Type"
             id="Type"
-            className="w-1/4 h-[10%] text-3xl rounded-xl"
+            className="w-1/4 h-[10%] text-3xl border-4 border-white font-bold rounded-xl bg-yellow-500 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] "
             onChange={(e) => {
               setTypeID(e.target.value);
             }}
@@ -57,22 +63,21 @@ const Interview = () => {
           </select>
         </div>
 
-          {/* //! Type of AI and connect any other */}
-          
+        {/* //! Type of AI and connect any other */}
 
         <div className="h-screen w-full flex flex-col items-center justify-center relative snap-center">
           <div className="flex w-1/2 h-1/2 justify-around">
             {/* <div
               className="w-[10vw] h-[10vw] inline-block bg-slate-500 "
             > */}
-              <motion.div
-                className="h-40 w-60 border-2 bg-green-400 text-white cursor-pointer flex justify-center items-center text-xl"
-                whileHover={{ scale: 1.1 }}
-                onClick={() => handleItemClick("bot")}
-                // whileTap={{ scale: 0.9 }}
-              >
-                Bot
-              </motion.div>
+            <motion.div
+              className="h-28 w-48  border-2 bg-green-400 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)]"
+              whileHover={{ scale: 1.1 }}
+              onClick={() => handleItemClick("bot")}
+              whileTap={{ scale: 0.9 }}
+            >
+              Bot
+            </motion.div>
             {/* </div> */}
             {/* <div className="w-10 h-12 inline-block bg-slate-500 text-white">
               AI3
@@ -80,15 +85,15 @@ const Interview = () => {
             <div className="w-10 h-12 inline-block bg-slate-500 text-white">
               AI4
             </div> */}
-            
+
             <motion.div
-                className="h-40 w-60 border-2 bg-green-400 text-white cursor-pointer flex justify-center items-center text-xl"
-                whileHover={{ scale: 1.1 }}
-                onClick={() => handleItemClick("online")}
-                // whileTap={{ scale: 0.9 }}
-              >
-                online
-              </motion.div>
+              className="h-28 w-48 border-2 bg-green-400 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)]"
+              whileHover={{ scale: 1.1 }}
+              onClick={() => handleItemClick("online")}
+              whileTap={{ scale: 0.9 }}
+            >
+              online
+            </motion.div>
             {/* <div
               onClick={() => handleItemClick("online")}
               className={
@@ -98,11 +103,27 @@ const Interview = () => {
               ONline
             </div> */}
           </div>
-          {selectedItem === "online" ? <div className=" w-auto p-2 h-[10%] rounded-sm bg-zinc-700 text-wrap text-white 
-          "  id="copy-link">
-            {"http://localhost:3000/Interview/Details/"+typeID+"/"+postID+"/ManualInterviewer/mylobby/online/interviewer/room/"+roomId}
-          </div> : <></>}
-          <div className="absolute bottom-[5%] left-1/2 bg-amber-800 border-1 rounded-sm p-2">
+          {selectedItem === "online" ? (
+            <div
+              className=" w-auto p-3 h-[10%] bg-zinc-700 text-wrap text-white rounded-lg border-2 border-white  
+          "
+              id="copy-link"
+            >
+              {"http://localhost:3000/Interview/Details/" +
+                typeID +
+                "/" +
+                postID +
+                "/ManualInterviewer/mylobby/online/interviewer/room/" +
+                roomId}
+            </div>
+          ) : (
+            <></>
+          )}
+          <motion.div
+            className="h-16 w-32 border-2 bg-orange-600 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
             <Link
               // to={"Details/" + postID + "/" + typeID + "/ManualInterviewer/Hardik"}
               // to={"Mylobby"}
@@ -111,14 +132,14 @@ const Interview = () => {
                 postID +
                 "/" +
                 typeID +
-                "/ManualInterviewer/mylobby/"+
+                "/ManualInterviewer/mylobby/" +
                 selectedItem
               }
             >
               {" "}
               Start
             </Link>
-          </div>
+          </motion.div>
         </div>
         {/* </div> */}
       </div>
