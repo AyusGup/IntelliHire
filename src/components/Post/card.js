@@ -26,7 +26,7 @@ const EventCard = (props) => {
        
           <div
             className=""
-            dangerouslySetInnerHTML={{ __html: props.body }}
+            dangerouslySetInnerHTML={{ __html: props.body.slice(0, 600) }}
           ></div>
         
       </div>

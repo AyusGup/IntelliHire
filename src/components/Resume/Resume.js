@@ -15,7 +15,7 @@ const Resume = () => {
     formData.append("text_data", form.message);
 
     axios
-      .post("http://localhost:5002/predict", formData, {
+      .post("https://intellihire-flask.onrender.com/predict", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

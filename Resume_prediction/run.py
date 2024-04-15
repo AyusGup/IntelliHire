@@ -5,6 +5,7 @@ from beem.discussions import Query, Discussions
 from app import get_response
 from inspect import getfullargspec
 
+
 app = Flask(__name__)
 CORS(app)
 
@@ -42,29 +43,34 @@ def predict():
 def get_posts():
     # Get tag from query parameters
     tag = request.args.get('tag')
-    
+    print(tag)
     # Check if tag is provided
     if not tag:
         return jsonify({'error': 'Tag parameter is required'}), 400
 
-    # Initialize Hive, Query, and Discussions objects
-    h = Hive()
-    q = Query(limit=10, tag="job")
-    d = Discussions()
+    try:
+        # Initialize Hive, Query, and Discussions objects
+        h = Hive()
+        q = Query(limit=10, tag="jobs")
+        d = Discussions()
 
-    # Fetch posts based on the provided tag
-    posts = d.get_discussions(tag, q)
+        # Fetch posts based on the provided tag
+        posts = d.get_discussions(tag, q, limit=10)
 
-    # Prepare response data
-    response = []
-    for post in posts:
-        response.append({
-            'author': post['author'],
-            'permlink': post['permlink'],
-            'category': post['category'],
-            'body': post['body']
-        })
-
+        # Prepare response data
+        response = []
+        for post in posts:
+            response.append({
+                'author': post['author'],
+                'permlink': post['permlink'],
+                'category': post['category'],
+                'body': post['body']
+            })
+        
+    except Exception as e:
+        # Handle the UnhandledRPCError by returning an empty array
+        response = []
+    # print(response)
     return jsonify(response)
 
 if __name__ == '__main__':

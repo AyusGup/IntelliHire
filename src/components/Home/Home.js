@@ -24,7 +24,7 @@ function Home() {
         expiresIn: expires_in
       })
   
-      fetch(`http://localhost:8000/callback?access_token=${access_token}&username=${username}`, {
+      fetch(`https://intellihire-4shu.onrender.com/callback?access_token=${access_token}&username=${username}`, {
       method: "GET",
       })
       .then(data => {
@@ -32,18 +32,18 @@ function Home() {
       })
       .catch(error => console.error('Error:', error));
 
-      axios.post(`http://localhost:8000/setScore?token=${access_token}&username=${username}`,{
-        username : "abhimanyu-jha", 
-        faceScore : 10,
-        resumeScore : 8,
-        speechScore : 6,
-        generalScore: 8
-      })
-      .then((data) => {console.log(data)})
-      .then(data => {
-        console.log(data)
-      })
-      .catch(error => console.error('Error:', error));
+      // axios.post(`https://intellihire-4shu.onrender.com/setScore?token=${access_token}&username=${username}`,{
+      //   username : "abhimanyu-jha", 
+      //   faceScore : 10,
+      //   resumeScore : 8,
+      //   speechScore : 6,
+      //   generalScore: 8
+      // })
+      // .then((data) => {console.log(data)})
+      // .then(data => {
+      //   console.log(data)
+      // })
+      // .catch(error => console.error('Error:', error));
     }
   }, [access_token, username, expires_in]);
   
@@ -68,9 +68,9 @@ function Home() {
           {/* <p className="text-[1vw] absolute  top-[130vh] left-[60%]">Want to clear Interview for your exam</p>
             <p className="text-[1vw] absolute top-[132vh] left -[60%]">But couldn't</p> */}
         </div>
-        <div className="absolute top-[calc(100vh-300px)] left-0 ">
+        {/* <div className="absolute top-[calc(100vh-300px)] left-0 ">
           <img src="RobotTalk.png" alt="Talk" width="500px" />
-        </div>  
+        </div> */}  
 
 
       <div className="3dTransform">
