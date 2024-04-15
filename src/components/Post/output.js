@@ -38,7 +38,7 @@ export default function PostOutput() {
     // Function to fetch cards from API
     const fetchCards = async () => {
       try {
-        const response = await fetch(`http://api.call/${selectedTag}`);
+        const response = await fetch(`https://intellihire-flask.onrender.com/posts?tag=${selectedTag}`);
         if (!response.ok) {
           throw new Error('Failed to fetch cards');
         }
