@@ -8,7 +8,7 @@ const Header = () => {
   const [user, setUser] = useUser();
 
   const callHiveSigner = () => {
-    fetch("http://localhost:8000/login", {
+    fetch("https://intellihire-4shu.onrender.com/login", {
       method: "GET",
     })
       .then((response) => response.json())
@@ -21,7 +21,7 @@ const Header = () => {
 
   const revokeHiveSigner = () => {
     console.log("revoke");
-    fetch("http://localhost:8000/logout", {
+    fetch("https://intellihire-4shu.onrender.com/logout", {
       method: "GET",
     })
       .then((response) => response.json())
@@ -35,7 +35,7 @@ const Header = () => {
   return (
     <>
       <div
-        className="w-full h-20 bg-black top-0 flex p-5 justify-between items-center text-center fixed z-9"
+        className="w-full h-20 bg-black top-0 flex p-5 justify-between items-center text-center fixed z-50"
         id="layout-header"
       >
         <div>
