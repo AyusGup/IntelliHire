@@ -24,6 +24,29 @@ def receive_blob():
         return 'Blob received and saved successfully', 200
     else:
         return 'No Blob data received', 400
+    
+@app.route('/process_frame', methods=['POST', 'OPTIONS'])
+def process_frame():
+    if request.method == 'OPTIONS':
+        # Handle preflight OPTIONS request
+        response = jsonify({'message': 'CORS preflight request handled'})
+        response.headers.add('Access-Control-Allow-Methods', 'POST')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        return response
+    elif request.method == 'POST':
+        # Handle POST request
+        try:
+            frame_data = request.json['frame']
+            # Here you can process the frame data as per your requirements
+            # For now, let's just print the length of the received frame data
+            print("Received frame data. Length:", len(frame_data))
+            # You can add your processing logic here
+            # Once processed, you may want to return a response indicating success
+            return jsonify({'message': 'Frame processed successfully'}), 200
+        except Exception as e:
+            # If any error occurs during processing, return an error response
+            print("Error processing frame:", str(e))
+            return jsonify({'error': 'Failed to process frame'}), 500
 
 @app.route('/predict', methods=['POST'])
 def predict():

@@ -16,6 +16,7 @@ import Dictaphone from "./components/Interview/temp";
 import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
 import PostOutput from "./components/Post/output";
 import PostInput from "./components/Post/input";
+import WebcamStream from "./components/WebStream";
 function App() {
   return (
     <>
@@ -76,6 +77,7 @@ function App() {
           />
           <Route exact path="/Dashboard" element={<Dashboard />} />
           <Route exact path="/Interviewer" element={<Interviewer />} />
+          <Route exact path="/webstream" element={<WebcamStream />} />
         </Routes>
       </BrowserRouter>
     </>
