@@ -47,6 +47,29 @@ def process_frame():
             # If any error occurs during processing, return an error response
             print("Error processing frame:", str(e))
             return jsonify({'error': 'Failed to process frame'}), 500
+        
+@app.route('/process_audio', methods=['POST', 'OPTIONS'])
+def process_audio():
+    if request.method == 'OPTIONS':
+        # Handle preflight OPTIONS request
+        response = jsonify({'message': 'CORS preflight request handled'})
+        response.headers.add('Access-Control-Allow-Methods', 'POST')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        return response
+    elif request.method == 'POST':
+        try:
+            audio_data = request.json['audio']
+            # Here you can process the audio data as per your requirements
+            # For now, let's just print the length of the received audio data
+            print("Received audio data. Length:", len(audio_data))
+            # You can add your processing logic here
+            # Once processed, you may want to return a response indicating success
+            return jsonify({'message': 'Audio processed successfully'}), 200
+        except Exception as e:
+            # If any error occurs during processing, return an error response
+            print("Error processing audio:", str(e))
+            return jsonify({'error': 'Failed to process audio'}), 500
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
