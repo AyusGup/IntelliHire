@@ -17,6 +17,7 @@ import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
 import PostOutput from "./components/Post/output";
 import PostInput from "./components/Post/input";
 import WebcamStream from "./components/WebStream";
+import AudioStream from "./components/AudioStream";
 function App() {
   return (
     <>
@@ -78,6 +79,7 @@ function App() {
           <Route exact path="/Dashboard" element={<Dashboard />} />
           <Route exact path="/Interviewer" element={<Interviewer />} />
           <Route exact path="/webstream" element={<WebcamStream />} />
+          <Route exact path="/audiostream" element={<AudioStream />} />
         </Routes>
       </BrowserRouter>
     </>
