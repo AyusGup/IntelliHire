@@ -18,6 +18,8 @@ import PostOutput from "./components/Post/output";
 import PostInput from "./components/Post/input";
 import WebcamStream from "./components/WebStream";
 import AudioStream from "./components/AudioStream";
+import SpeechToText from "./components/RecordToText";
+
 function App() {
   return (
     <>
@@ -80,6 +82,7 @@ function App() {
           <Route exact path="/Interviewer" element={<Interviewer />} />
           <Route exact path="/webstream" element={<WebcamStream />} />
           <Route exact path="/audiostream" element={<AudioStream />} />
+          <Route exact path="/recordtotext" element={<SpeechToText />} />
         </Routes>
       </BrowserRouter>
     </>
