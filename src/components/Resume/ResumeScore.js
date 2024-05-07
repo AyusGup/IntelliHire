@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import DownArrow from "../../helper/svg";
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 import { useScore } from "../../context/ScoreProvider";
+import { MagnifyingGlass } from "react-loader-spinner";
 
 const ResumeScore = () => {
   // const location = useLocation();
@@ -10,6 +9,32 @@ const ResumeScore = () => {
   const [score, setScore] = useScore();
   console.log(score)
   const [scoreParts, setScoreParts] = useState(null);
+  useEffect(() => {
+    return ()=>{
+      setScore(null);
+    }
+  }, []);
+
+  if(!score){
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-950">
+        <img src="/resume.png" alt="reviewing..." />
+        <MagnifyingGlass
+          visible={true}
+          height="120"
+          width="120"
+          ariaLabel="magnifying-glass-loading"
+          wrapperStyle={{
+            marginTop: "-300px"
+          }}
+          wrapperClass="magnifying-glass-wrapper"
+          glassColor="#c0efff"
+          color="#e15b64"
+          />
+      </div>
+    );    
+  }
+
   return (
      <>
         <div className="w-full h-screen flex items-center justify-center  bg-gray-950">
