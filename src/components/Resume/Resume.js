@@ -11,31 +11,41 @@ const Resume = () => {
   const [form, setForm] = useState({});
 
   const submitForm = () => {
-    const formData = new FormData();
-    formData.append("pdf_file", form.pdf_data);
-    formData.append("text_data", form.message);
-
-    axios
-      .post("https://intellihire-flask.onrender.com/predict", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setScore((prev) => ({
-          ...prev,
-          ...res.data,
-        }));
-      });
+    try {
+      const formData = new FormData();
+      formData.append("pdf_file", form.pdf_data);
+      formData.append("text_data", form.message);
+  
+      axios
+        .post("https://intellihire-flask.onrender.com/predict", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setScore((prev) => ({
+            ...prev,
+            ...res.data,
+          }));
+        })
+        .catch((error) => {
+          console.error("Error occurred during form submission:", error);
+          // Handle error appropriately, e.g., show a notification to the user
+        });
+    } catch (error) {
+      console.error("An error occurred:", error);
+      // Handle error appropriately, e.g., show a notification to the user
+    }
   };
+  
   const GotoDesc = () => {
     return <a href="#Job-describtion" />;
   };
   return (
     <>
       <ResumeLanding />
-      <div className=" bg-gray-950">
+      <div className=" bg-gray-950"> 
         <div className="h-screen w-full flex flex-col items-center justify-center">
           <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
             {" "}
