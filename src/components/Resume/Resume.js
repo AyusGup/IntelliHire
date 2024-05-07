@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link, redirect, Router } from "react-router-dom";
 import axios from "axios";
 import { useScore } from "../../context/ScoreProvider";
+import ResumeLanding from "./hero";
 
 const Resume = () => {
   const [RoleName, setRoleName] = useState("");
@@ -33,6 +34,7 @@ const Resume = () => {
   };
   return (
     <>
+      <ResumeLanding />
       <div className=" bg-gray-950">
         <div className="h-screen w-full flex flex-col items-center justify-center">
           <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
