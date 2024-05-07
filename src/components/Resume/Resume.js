@@ -35,7 +35,7 @@ const Resume = () => {
   return (
     <>
       <ResumeLanding />
-      <div className=" bg-gray-950">
+      <div className=" bg-black">
         <div className="h-screen w-full flex flex-col items-center justify-center">
           <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
             {" "}
