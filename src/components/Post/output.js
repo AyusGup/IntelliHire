@@ -36,7 +36,7 @@ export default function PostOutput() {
   };
 
   useEffect(() => {
-    // Function to fetch cards from API
+    // Function to fetch cards from API 
     const fetchCards = async () => {
       try {
         const response = await axios.get(`https://intellihire-flask.onrender.com/posts?tag=${selectedTag}`);
@@ -47,7 +47,7 @@ export default function PostOutput() {
       }
     };
 
-    fetchCards(); // Call the fetchCards function when the selectedTag changes
+    fetchCards(); // Call the fetchCards function when the selectedTag changes    
   }, [selectedTag]); // Include selectedTag as a dependency in useEffect
 
   // const filteredCards = cards.filter((card) =>
