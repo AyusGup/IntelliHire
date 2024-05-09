@@ -3,7 +3,7 @@ import imag from './pic.png';
 
 const EventCard = (props) => {
   const [userImages, setUserImages] = useState([]);
-  const [body, setBody] = useState(props.body);
+  const [body, setBody] = useState("");
   let modifiedBody = props.body;
   const bodyContent = modifiedBody.match(/!\[.*?\]\((.*?)\)/g);
 
@@ -16,23 +16,25 @@ const EventCard = (props) => {
         if (imageURLMatch) {
           const imageURL = imageURLMatch[1];
           // Check if the URL ends with .jpg, .png, .webp, or .jpeg
-          // if (imageURL.toLowerCase().endsWith('.jpg') ||
-          //     imageURL.toLowerCase().endsWith('.png') ||
-          //     imageURL.toLowerCase().endsWith('.webp') ||
-          //     imageURL.toLowerCase().endsWith('.jpeg')) {
-          //   
-          // }
-          acc.push(imageURL);
+          if (imageURL.toLowerCase().endsWith('.jpg') ||
+              imageURL.toLowerCase().endsWith('.png') ||
+              imageURL.toLowerCase().endsWith('.webp') ||
+              imageURL.toLowerCase().endsWith('.jpeg')) {
+              acc.push(imageURL);
+          }
         }
         // Remove the text between []() from the body
         modifiedBody = modifiedBody.replace(content, '');
+        console.log(modifiedBody)
         setBody(modifiedBody);
         return acc;
       }, []);
   
       setUserImages(extractedImages);
     }
-  
+    else{
+      setBody((prev)=> body);
+    }
   },[props.body])
 
   return (

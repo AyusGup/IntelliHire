@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 function WebcamStream() {
   const videoRef = useRef(null);
-
+  let sendFrameInterval;
   useEffect(() => {
     const startWebcam = async () => {
       try {
@@ -11,11 +11,11 @@ function WebcamStream() {
           videoRef.current.srcObject = stream;
           videoRef.current.addEventListener('loadedmetadata', () => {
             videoRef.current.play();
-            sendFrame(); // Call sendFrame once video is ready
+            sendFrameInterval = setInterval(sendFrame, 3000); // Send frame data every 2 seconds
           });
         }
       } catch (err) {
-        console.error('Error accessing webcam:', err);
+        // console.error('Error accessing webcam:', err);
       }
     };
 
@@ -28,6 +28,9 @@ function WebcamStream() {
         const tracks = stream.getTracks();
         tracks.forEach(track => track.stop());
       }
+      videoRef.current.removeEventListener('loadedmetadata', () => {});
+      clearTimeout(sendFrameInterval);
+      console.log("removed webcam");
     };
   }, []);
 
@@ -40,7 +43,7 @@ function WebcamStream() {
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       const imageData = canvas.toDataURL('image/jpeg');
       sendDataViaAPI(imageData);
-      requestAnimationFrame(sendFrame);
+      // requestAnimationFrame(sendFrame);
     }
   };
 
@@ -56,7 +59,7 @@ function WebcamStream() {
       if (!response.ok) {
         throw new Error('Failed to send frame data');
       }
-      console.log('Frame data sent successfully');
+      // console.log('Frame data sent successfully');
     })
     .catch(error => {
       console.error('Error sending frame data:', error);
