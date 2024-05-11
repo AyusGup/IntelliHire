@@ -51,7 +51,8 @@ const InterviewMEET = (props) => {
     const getQ = async () => {
       try {
         const ques = await fetch(postID);
-        // console.log(ques);
+
+        console.log(ques);
         // axios.get(`http://localhost:5000/start`).then((res) => {
         //   console.log(res.data);
         // });
@@ -132,7 +133,7 @@ const InterviewMEET = (props) => {
     qInterval = setInterval(() => {
       ans.push(transcript);
       console.log("Transcript:", transcript);
-      if (idx == 6) {
+      if (idx == 5) {
         clearInterval(qInterval);
         clearInterval(timingInterval);
         stopRecognition();
@@ -192,7 +193,7 @@ const InterviewMEET = (props) => {
         {/* Main meet */}
         <div className="main-meet flex w-11/12 h-4/5 m-auto items-center px-auto justify-around">
           <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-indigo-950 text-slate-50 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
-            <div>{ifStart?questions[qid] : "Best of luck for the interview!"}</div>
+            <div>{ifStart && qid<6?questions[qid] : "Best of luck for the interview!"}</div>
             <div>{ifStart? transcript : ans[1]}</div>
           </div>
           <div
@@ -205,8 +206,8 @@ const InterviewMEET = (props) => {
 
             {/* time and command component */}
             <div className="w-60 h-40 bg-slate-600 rounded-2xl ">
-              <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={startInterview}>
-                {ifStart? time : "Start"}
+              <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={questions.length? startInterview: ()=>{}}>
+                {ifStart? time : questions.length? "Start Interview" : "Loading Questions"}
               </div>
               <div className="flex w-full h-[30%] justify-around rounded-b-2xl">
                 <button
