@@ -11,7 +11,7 @@ const fetchGeminiDataAndExtractQuestions = async (role) => {
                 "role": "user",
                 "parts": [
                 {
-                    "text": `Give me 5 question for an ${role} role interview. Question only.`
+                    "text": `Give me 5 question for an ${role} role interview. Question only. and then answer only. `
                 }
                 ]
             }

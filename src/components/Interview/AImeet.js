@@ -1,96 +1,26 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import fetch from "../../helper/question";
+import WebcamStream from "../WebStream";
+import AudioStream from "../AudioStream";
 
 const InterviewMEET = (props) => {
   const { postID, typeID, InterviewID } = useParams();
-  const [qid, setQid] = useState(0);
+  const [qid, setQid] = useState(1);
   const [questions, setQuestions] = useState([]);
-  const [recordedChunks, setRecordedChunks] = useState([]);
   const [time, setTime] = useState(10);
-  const [myStream, setMyStream] = useState();
   const [ifStart, setIfStart] = useState(false);
   let timingInterval, qInterval;
+  let ans = [];
 
-  const handleDataAvailable = useCallback(
-    (chunk) => {
-      setRecordedChunks((prevChunks) => [...prevChunks, chunk]);
-    },
-    [recordedChunks]
-  );
-
-  // const {
-  //   transcript,
-  //   listening,
-  //   resetTranscript,
-  //   browserSupportsSpeechRecognition
-  // } = useSpeechRecognition();
-
-  // const [timer, setTimer] = useState(10); // 120 seconds = 2 minutes
-
-  // let {
-  //   liveStream,
-  //   stopRecording,
-  //   startRecording,
-  // } = useMediaRecorder({
-  //  // recordScreen: true,
-  //   blobOptions: { type: 'audio/webm' },
-  //   mediaStreamConstraints: { audio: false, video: true },
-  //   onStop: (blob) => {console.log(blob);},
-  //   onDataAvailable: (data) => {
-  //     console.log(data)
-  //     handleDataAvailable(data);
-  //   },
-  // });
-  // const { status, startRecording, stopRecording, mediaBlobUrl } =
-  // useReactMediaRecorder({ video: true });
-
-  // useEffect(async() => {
-  // const stream = await navigator.mediaDevices.getUserMedia({
-  //   audio: true,
-  //   video: true,
-  // });
-  // setMyStream(stream);
-  // },[]);
-
-  // async function callTheapi(recordedChunks) {
-  //   const formData = new FormData();
-  //   formData.append('mergedBlob', recordedChunks, 'recording.webm');
-
-  //   try {
-  //     const response = await axios.post('http://localhost:5000/', formData,  {headers: {
-  //       "Content-Type": "multipart/form-data",
-  //     },});
-  //     console.log('Response:', response.data);
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // }
-
-  // function download(){
-  // //     const downloadLink = document.createElement('a');
-  // // downloadLink.href = URL.createObjectURL(mediaBlob);
-  // //     downloadLink.download = 'recording.webm'; // Specify the filename
-  // //     downloadLink.click();
-  //   const mergedBlob = new Blob(recordedChunks, { type: 'video/webm' });
-  //   callTheapi(mergedBlob);
-  // }
-
-  // const startListening = () => {
-  //   resetTranscript(); // Reset transcript
-  //   setTimer(10); // Reset timer
-  //   SpeechRecognition.startListening({continuous: true});
-  // };
-
-  // const stopListening = () => {
-  //   console.log(transcript, "bkl"); // Log transcript
-  //   SpeechRecognition.stopListening();
-  // };
-
-  // if (!browserSupportsSpeechRecognition) {
-  //   return <span>Browser doesn't support speech recognition.</span>;
-  // }
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
 
   const speak = (text) => {
     return new Promise((resolve) => {
@@ -101,18 +31,35 @@ const InterviewMEET = (props) => {
     });
   };
 
+  const startRecognition = () => {
+    resetTranscript(); // Reset transcript
+    SpeechRecognition.startListening({ continuous: true });
+  };
+
+  const stopRecognition = () => {
+    console.log("Recording stopped", transcript);
+    SpeechRecognition.stopListening();
+  };
+
+  const onEnd = useCallback(() => {
+    ans.push(transcript);
+    console.log("Transcript:", transcript);
+    resetTranscript(); // Reset transcript
+  }, [transcript]);
+
   useEffect(() => {
     const getQ = async () => {
       try {
         const ques = await fetch(postID);
-        console.log(ques);
-        axios.get(`http://localhost:5000/start`).then((res) => {
-          console.log(res.data);
-        });
 
-        axios.get(`http://localhost:5001/start`).then((res) => {
-          console.log(res.data);
-        });
+        console.log(ques);
+        // axios.get(`http://localhost:5000/start`).then((res) => {
+        //   console.log(res.data);
+        // });
+
+        // axios.get(`http://localhost:5001/start`).then((res) => {
+        //   console.log(res.data);
+        // });
         setQuestions(ques);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -122,7 +69,17 @@ const InterviewMEET = (props) => {
     if (questions.length === 0) {
       getQ();
     }
+
   }, [questions]);
+
+  useEffect(() => {
+    return ()=>{
+      clearInterval(timingInterval);
+      clearInterval(qInterval);
+      window.speechSynthesis.cancel();
+      window.location.reload();
+    }
+  }, []);
 
   //todo Remove the header from the meet
   const RemoveHeader = document.getElementById("layout-header");
@@ -144,18 +101,24 @@ const InterviewMEET = (props) => {
   const backToHome = () => {
     RemoveHeader.style.display = "flex";
     console.log("Back to Home");
+    clearInterval(timingInterval);
+    clearInterval(qInterval);
+    window.speechSynthesis.cancel();
+    window.location.href = "/";
   };
 
   const startInterview = () => {
     setIfStart(true);
     console.log("start interview");
 
-    let idx = 0;
-    speak(questions[0]).then((completed) => {
+    let idx = 1;
+    startRecognition();
+    speak(questions[1]).then((completed) => {
       if (completed) {
         console.log("Speech has finished.");
         //  console.log("Recording stopped", mediaBlobUrl);
         timingInterval = setInterval(() => {
+          console.log("T:",transcript);
           setTime((prevTime) => {
             if (prevTime === 0) {
               clearInterval(timingInterval);
@@ -168,39 +131,19 @@ const InterviewMEET = (props) => {
     });
 
     qInterval = setInterval(() => {
-      if (idx == questions.length - 1) {
+      ans.push(transcript);
+      console.log("Transcript:", transcript);
+      if (idx == 5) {
         clearInterval(qInterval);
-        axios
-          .get(`http://localhost:5000/stop`)
-          .then((res1) => {
-            console.log(res1.data);
-
-            axios
-              .get(`http://localhost:5001/stop`)
-              .then((res2) => {
-                console.log(res2.data);
-
-                // Third API call
-                axios
-                  .get(`http://third-api-url`)
-                  .then((res3) => {
-                    console.log(res3.data);
-                    // Add any further processing if needed
-                  })
-                  .catch((error) => {
-                    console.error("Error in third API call:", error);
-                  });
-              })
-              .catch((error) => {
-                console.error("Error in second API call:", error);
-              });
-          })
-          .catch((error) => {
-            console.error("Error in first API call:", error);
-          });
+        clearInterval(timingInterval);
+        stopRecognition();
+        idx = 1;
+        setQid(1);
+        setIfStart(false);
         return;
       }
-
+      
+      // resetTranscript(); 
       speak(questions[++idx]).then((completed) => {
         if (completed) {
           console.log("Speech has finished.");
@@ -221,8 +164,23 @@ const InterviewMEET = (props) => {
     }, 20 * 1000); // time for question + answer
   };
 
+  useEffect(() => {
+    console.log("Time:", time);
+    console.log("Transcript:", transcript, ans[0]);
+    if(time == 0){
+      ans.push(transcript);
+      console.log("Transcript:", transcript);
+      resetTranscript();
+    }
+  }, [time]); 
+
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser not supported. Change your browser!</span>;
+  }
+
   return (
     <>
+      <AudioStream />
       <div className="w-full h-screen bg-slate-950 m-0 p-0 z-9 flex items-center">
         {/* EXIT */}
 
@@ -235,7 +193,8 @@ const InterviewMEET = (props) => {
         {/* Main meet */}
         <div className="main-meet flex w-11/12 h-4/5 m-auto items-center px-auto justify-around">
           <div className="w-1/3 h-1/2 min-w-[640px] min-h-[480px] rounded-2xl bg-indigo-950 text-slate-50 hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] border-white border-8">
-            <div>{questions[qid]}</div>
+            <div>{ifStart && qid<6?questions[qid] : "Best of luck for the interview!"}</div>
+            <div>{ifStart? transcript : ans[1]}</div>
           </div>
           <div
             id="RIGHT-SIDE-OPTIONS"
@@ -247,9 +206,9 @@ const InterviewMEET = (props) => {
 
             {/* time and command component */}
             <div className="w-60 h-40 bg-slate-600 rounded-2xl ">
-              {/* <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={startInterview}>
-                {ifStart ? time: "start"}{transcript}
-              </div> */}
+              <div className="w-full h-[70%] bg-red-400 rounded-t-2xl justify-center text-3xl flex items-center" onClick={questions.length? startInterview: ()=>{}}>
+                {ifStart? time : questions.length? "Start Interview" : "Loading Questions"}
+              </div>
               <div className="flex w-full h-[30%] justify-around rounded-b-2xl">
                 <button
                   className="h-full w-[49%] bg-slate-400 rounded-bl-2xl hover:bg-slate-600"
@@ -264,17 +223,9 @@ const InterviewMEET = (props) => {
             </div>
 
             {/* OUR_CAMERA */}
-            {/* <div className=" w-64 h-fit bottom-10 right-10 bg-slate-500 rounded-lg translate-x-10 translate-y-10 border-white border-3 text-wrap text-red-400 font-semibold">
-            {myStream ? (
-              <ReactPlayer
-                playing
-                muted
-                height="100%"
-                width="100%"
-                url={myStream}
-              />
-            ) : "Camera Access Denied"}
-            </div> */}
+            <div className=" w-64 h-fit bottom-10 right-10 bg-slate-500 rounded-lg translate-x-10 translate-y-10 border-white border-3 text-wrap text-red-400 font-semibold">
+              <WebcamStream />
+            </div>
           </div>
         </div>
       </div>
@@ -305,7 +256,7 @@ const InterviewMEET = (props) => {
               className="rounded-br-2xl h-full w-[149px] bg-slate-400"
               onClick={backToHome}
             >
-              <Link to="/">Yes</Link>
+              Yes
             </button>
           </div>
         </div>
@@ -315,6 +266,4 @@ const InterviewMEET = (props) => {
 };
 export default InterviewMEET;
 
-InterviewMEET.defaultProps = {
-  QuestionTimer: 100,
-};
+

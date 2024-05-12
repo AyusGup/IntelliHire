@@ -73,17 +73,23 @@ def process_audio():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if 'pdf_file' not in request.files:
-        return 'No file part', 400
+    try:
+        if 'pdf_file' not in request.files:
+            return 'No file part', 400
 
-    pdf_file = request.files['pdf_file']
-    text_data = request.form.get('text_data')
-    print(pdf_file.filename, text_data)
-    # Call a function and pass text and PDF data as parameters
-    result = get_response(pdf_file, text_data)
-    print(result)
-    # Return the result
-    return result
+        pdf_file = request.files['pdf_file']
+        text_data = request.form.get('text_data')
+        print(pdf_file.filename, text_data)
+        
+        # Call a function and pass text and PDF data as parameters
+        result = get_response(pdf_file, text_data)
+        print(result)
+        
+        # Return the result
+        return result
+    except Exception as e:
+        return f"An error occurred: {e}", 500
+
 
 @app.route('/posts', methods=['GET'])
 def get_posts():

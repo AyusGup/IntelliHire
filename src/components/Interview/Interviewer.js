@@ -17,6 +17,7 @@ const Interviewer = (props) => {
   const { postID, typeID, InterviewID, roomID } = useParams();
   const [qid, setQid] = useState(0);
   const [questions, setQuestions] = useState([]);
+  const [questionAnswerStatus,setQuestionAnswerStatus] = useState(false);
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -135,7 +136,6 @@ const Interviewer = (props) => {
     const getQ = async () => {
       try {
         const ques = await fetch(postID);
-
         setQuestions(ques);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -250,8 +250,15 @@ const Interviewer = (props) => {
               </motion.div>
             )}
           </div>
-          <div className="w-1/3 h-1/2 bg-[rgba(36,29,66,0.39)] hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] rounded-md ">
-            <div className="w-full flex justify-between">
+          <div style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        overflowY: 'scroll',
+                        WebkitOverflowScrolling: 'touch',
+                        WebkitScrollbar: { display: 'none' }
+                      }} 
+                       className="w-1/3 h-1/2 bg-[rgba(36,29,66,0.39)] hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)] rounded-md overflow-auto">
+            <div className="w-full flex justify-between ">
               <button
                 onClick={startInterview}
                 className="w-[calc(50%-0.5px)] h-8  text-white rounded-tl-md border-b "
@@ -264,16 +271,41 @@ const Interviewer = (props) => {
               >
                 stop
               </button>
+              <button
+                onClick={()=> setQuestionAnswerStatus(false)}
+                className="w-[calc(50%-0.5px)] h-8  text-white rounded-tl-md border-b "
+              >
+                question
+              </button>
+              <button
+                className="w-[calc(50%-0.5px)] h-8 text-white rounded-tr-md border-b"
+                onClick={()=> setQuestionAnswerStatus(true)}
+              >
+                answer
+              </button>
             </div>
             <div className="w-full h-[calc(100%-35px)] flex flex-col items-center justify-between px-2 ">
-              {questions.map((question, index) => (
+            {!questionAnswerStatus ? (
+              questions.slice(1, 6).map((question, index) => (
                 <div
                   key={index}
                   className="bg-[#4646464b] text-white h-fit rounded-sm p-2"
                 >
                   {question}
                 </div>
-              ))}
+              ))
+            ) : (
+              questions.slice(7).map((question, index) => (
+                <div
+                  key={index}
+                  className="bg-[#4646464b] text-white h-fit rounded-sm p-2"
+                >
+                  {question}
+                </div>
+              ))
+            )}
+
+
             </div>
           </div>
           {/* </div> */}

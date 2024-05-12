@@ -23,6 +23,8 @@ const Contain = React.forwardRef<HTMLInputElement, InputProps>(
       mouseY.set(clientY - top);
     }
     return (
+      <>
+      <p className="text-sm font-medium text-black dark:text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-1">Share it the interviewer</p>
       <motion.div
         style={{
           background: useMotionTemplate`
@@ -73,7 +75,7 @@ const Contain = React.forwardRef<HTMLInputElement, InputProps>(
            
         </div>
       </motion.div>
-  
+  </>
     );
   }
 );
