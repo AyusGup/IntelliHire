@@ -12,7 +12,10 @@ import { BackgroundGradient } from "../ui/background-gradient.tsx";
 const Resume = () => {
   const [RoleName, setRoleName] = useState("");
   const [score, setScore] = useScore();
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({
+    "message": "Need a fullstack developer ",
+    "role": "SDE",
+  });
 
   const submitForm = () => {
     try {
@@ -77,7 +80,7 @@ const Resume = () => {
                     <p className="py-3">Job Role</p>
                     <Input
                       id="lastname"
-                      placeholder="SDE"
+                      value={form.role}
                       type="text"
                       onChange={(e) => {
                         setForm({ ...form, role: e.target.value });
@@ -89,7 +92,7 @@ const Resume = () => {
                     <p className="py-3">Job Decription</p>
                     <Input
                       id="lastname"
-                      placeholder="I am a fullstack developer "
+                      value={form.message}
                       type="textarea"
                       onChange={(e) =>
                         setForm({ ...form, message: e.target.value })
@@ -133,7 +136,7 @@ const Resume = () => {
           </div>
         </div>
 
-        <div className="h-screen w-full flex flex-col items-center justify-center">
+        {/* <div className="h-screen w-full flex flex-col items-center justify-center">
           <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
             {" "}
             Choose the role
@@ -214,9 +217,9 @@ const Resume = () => {
               }}
             >
               SUBMIT
-            </Link>
+            </Link> 
           </motion.div>
-        </div>
+          </div> */}
       </div>
     </>
   );

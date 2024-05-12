@@ -24,9 +24,9 @@ const Interview = () => {
   return (
     <>
       <InterviewLanding />
-      <div className="w-full h-full bg-gray-950  m-0 ">
-        {/* <div className="h-screen flex flex-col items-center justify-around "> */}
-        {/* <div className="w-full h-[200vh]  bg-slate-200 flex flex-col justify-around"> */}
+      {/* <div className="w-full h-full bg-gray-950  m-0 ">
+        {/* <div className="h-screen flex flex-col items-center justify-around "> 
+        {/* <div className="w-full h-[200vh]  bg-slate-200 flex flex-col justify-around"> 
         <div className="h-screen w-full flex flex-col items-center justify-center snap-center">
           <p className="text-2xl text-slate-300 m-4 font-extrabold drop-shadow-md">
             {" "}
@@ -65,13 +65,13 @@ const Interview = () => {
           </select>
         </div>
 
-        {/* //! Type of AI and connect any other */}
+        {/* //! Type of AI and connect any other 
 
         <div className="h-screen w-full flex flex-col items-center justify-center relative snap-center">
           <div className="flex w-1/2 h-1/2 justify-around">
             {/* <div
               className="w-[10vw] h-[10vw] inline-block bg-slate-500 "
-            > */}
+            > 
             <motion.div
               className="h-28 w-48  border-2 bg-green-400 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)]"
               whileHover={{ scale: 1.1 }}
@@ -80,13 +80,13 @@ const Interview = () => {
             >
               Bot
             </motion.div>
-            {/* </div> */}
+            {/* </div> 
             {/* <div className="w-10 h-12 inline-block bg-slate-500 text-white">
               AI3
             </div>
             <div className="w-10 h-12 inline-block bg-slate-500 text-white">
               AI4
-            </div> */}
+            </div> *
 
             <motion.div
               className="h-28 w-48 border-2 bg-green-400 text-black cursor-pointer flex justify-center items-center text-xl font-extrabold rounded-xl hover:shadow-[55px_-43px_120px_rgba(112,0,255,0.25),-74px_39px_120px_rgba(204,0,255,0.25)]"
@@ -103,7 +103,7 @@ const Interview = () => {
               }
             >
               ONline
-            </div> */}
+            </div>
           </div>
           {selectedItem === "online" ? (
             <div
@@ -143,8 +143,8 @@ const Interview = () => {
             </Link>
           </motion.div>
         </div>
-        {/* </div> */}
-      </div>
+        {/* </div> 
+      </div> */}
     </>
   );
 };
