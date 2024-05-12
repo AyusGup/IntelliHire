@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { motion } from "framer-motion";
 import { cn } from "../../utils/cn.ts";
-
+import "./ui.css"
 export const StickyScroll = ({
   content,
   contentClassName,
@@ -54,7 +54,15 @@ export const StickyScroll = ({
       animate={{
         backgroundColor: backgroundColors[activeCard % backgroundColors.length],
       }}
-      className="h-[30rem] overflow-y-auto flex justify-center relative space-x-10 rounded-md p-10"
+      className="h-[30rem] overflow-y-auto scrollbar-w-0 flex justify-center relative space-x-10 rounded-md p-10 scrolling-zero"
+      
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        overflowY: 'scroll',
+        WebkitOverflowScrolling: 'touch',
+        WebkitScrollbar: { display: 'none' }
+      }}
       ref={ref}
     >
       <div className="div relative flex items-start px-4">

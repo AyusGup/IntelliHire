@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import InterviewLanding from "./landing";
 
 const Interview = () => {
   const [postID, setPostID] = useState("General");
@@ -22,6 +23,7 @@ const Interview = () => {
 
   return (
     <>
+      <InterviewLanding />
       <div className="w-full h-full bg-gray-950  m-0 ">
         {/* <div className="h-screen flex flex-col items-center justify-around "> */}
         {/* <div className="w-full h-[200vh]  bg-slate-200 flex flex-col justify-around"> */}
