@@ -36,6 +36,16 @@ const ResumeScore = () => {
       className: "text-blue-500 dark:text-blue-500",
     },
   ];
+
+  function stringToWords(str) {
+    if (!str) return null;
+    const words = str.split(/[,\s]+/);
+    const result = words.map((word, index) => ({
+        text: word,
+        className: index === words.length - 1 ? "text-blue-500 dark:text-blue-500" : undefined
+    }));
+    return result;
+  }
   // if (!score) {
   //   return (
   //     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-950">
@@ -67,7 +77,7 @@ const ResumeScore = () => {
       {/* //!score component */}
       <div className="h-[40rem] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
         <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
-          Score: {score?.percentagematch || ""}
+          Score: {score?.percentagematch || "80%"}
         </h1>
         <div className="w-[40rem] h-40 relative">
           {/* Gradients */}
@@ -122,10 +132,19 @@ const ResumeScore = () => {
       <div className="w-full p-4">
         <BackgroundGradient className="w-full rounded-[22px] p-8 bg-black min-h-20 m-0">
           <h1 className="text-4xl font-semibold text-white text-center pb-2">
-            Your skills
+            Resume Summary
+          </h1>
+          <div className="text-white text-xl font-bold">{score?.Description || "This candidate has a strong academic background and a variety of project experiences. The resume highlights skills such as NextJs, NodeJs, TypeScript, Tailwind CSS, and MongoDB. However, it lacks clear demonstrations of software engineering, data science, data analytics, or big data engineering skills. To improve the resume, the candidate should focus on quantifying their accomplishments, using specific metrics to showcase their impact. Additionally, they should highlight any relevant certifications or training in the aforementioned fields to demonstrate their commitment to professional development."}</div>
+        </BackgroundGradient>
+      </div>
+
+      <div className="w-full p-4">
+        <BackgroundGradient className="w-full rounded-[22px] p-8 bg-black min-h-20 m-0">
+          <h1 className="text-4xl font-semibold text-white text-center pb-2">
+            Missing Keywords
           </h1>
           <TypewriterEffect
-            words={score?.missingkeyword || words}
+            words={stringToWords(score?.missingkeyword) || words}
             className=" text-lg"
           />
         </BackgroundGradient>

@@ -118,9 +118,9 @@ export default function InterviewLanding() {
                 {/* <div
               className="w-[10vw] h-[10vw] inline-block bg-slate-500 "
             > */}
-                <p className="text-sm font-medium text-black dark:text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {/* <p className="text-sm font-medium text-black dark:text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Interviewer
-                </p>
+                </p> */}
                 <motion.div
                   className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-20 px-3 text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] text-center"
                   whileHover={{ scale: 1.1 }}
