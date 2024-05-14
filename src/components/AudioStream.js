@@ -64,7 +64,7 @@ function MicrophoneStream() {
   };
 
   const sendDataViaAPI = (audioData) => {
-    fetch('http://localhost:5002/process_audio', {
+    fetch('https://w8mx4nrj-5002.inc1.devtunnels.ms/process_audio', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
