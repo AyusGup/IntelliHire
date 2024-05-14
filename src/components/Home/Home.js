@@ -26,6 +26,15 @@ function Home() {
         expiresIn: expires_in,
       });
 
+
+      // let token = JSON.stringify({
+      //   token: access_token,
+      //   username: username,
+      //   expiresIn: expires_in,
+      // });
+
+      
+
       fetch(
         `https://intellihire-4shu.onrender.com/callback?access_token=${access_token}&username=${username}`,
         {
