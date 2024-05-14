@@ -46,25 +46,26 @@ const ResumeScore = () => {
     }));
     return result;
   }
-  // if (!score) {
-  //   return (
-  //     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-950">
-  //       <img src="/resume.png" alt="reviewing..." />
-  //       <MagnifyingGlass
-  //         visible={true}
-  //         height="120"
-  //         width="120"
-  //         ariaLabel="magnifying-glass-loading"
-  //         wrapperStyle={{
-  //           marginTop: "-300px",
-  //         }}
-  //         wrapperClass="magnifying-glass-wrapper"
-  //         glassColor="#c0efff"
-  //         color="#e15b64"
-  //       />
-  //     </div>
-  //   );
-  // }
+  
+  if (!score) {
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-950">
+        <img src="/resume.png" alt="reviewing..." />
+        <MagnifyingGlass
+          visible={true}
+          height="120"
+          width="120"
+          ariaLabel="magnifying-glass-loading"
+          wrapperStyle={{
+            marginTop: "-300px",
+          }}
+          wrapperClass="magnifying-glass-wrapper"
+          glassColor="#c0efff"
+          color="#e15b64"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black min-h-screen">
