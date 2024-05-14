@@ -13,6 +13,14 @@ const UserProvider = (props) => {
 
   useEffect(() => {
     if(token){
+
+      if (now.getTime() >= item.expiry) {
+        // If the item is expired, delete the item from storage
+        // and return null
+        localStorage.removeItem(token);
+        return ;
+      }
+
       let profile = JSON.parse(token);
       setProfile({
         token: profile.token,
@@ -20,9 +28,11 @@ const UserProvider = (props) => {
         expiresIn: profile.expiresIn
       });
     }
-
-    if(profile.token){
-      localStorage.setItem("token", JSON.stringify(profile));
+    else if(profile.token){
+      localStorage.setItem("token", JSON.stringify({
+        ...profile,
+        expiresIn: now.getTime() + profile.expiresIn
+      }));
     }
   }, [token, profile]); 
 
