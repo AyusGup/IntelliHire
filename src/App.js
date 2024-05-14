@@ -35,41 +35,43 @@ function App() {
 
           <Route path="/Resume" element={<Protection />} >
             <Route exact path="" element={<Resume />} />
-            <Route
-              exact
-              path="/ResumeScore/:ResumeSubmissionID"
-              element={<ResumeScore />}
-            />
           </Route>
+
+          <Route
+            exact
+            path="/ResumeScore/:ResumeSubmissionID"
+            element={<ResumeScore />}
+          />
 
           <Route path="/Interview" element={<Protection />} >
             <Route exact path="" element={<Interview />} />
-            <Route
+          </Route>
+
+          <Route
               exact
-              path="Details/:postID/:typeID/:selectedItem/:InterviewID"
+              path="/Interview/Details/:postID/:typeID/:selectedItem/:InterviewID"
               element={<InterviewMEET />}
             />
             <Route
               extact
-              path="Details/:postID/:typeID/ManualInterviewer/mylobby/online"
+              path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/online"
               element={<LobbyScreen />}
             /> 
             <Route
               extact
-              path="Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
+              path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
               element={<InterviewMEET />}
             />
             <Route
               extact
-              path="Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/candidate/room/:roomID"
+              path="/Interview/Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/candidate/room/:roomID"
               element={<ManualInterviewMEET />}
             />
             <Route
               extact
-              path="Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/interviewer/room/:roomID"
+              path="/Interview/Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/interviewer/room/:roomID"
               element={<Interviewer />}
             />
-          </Route>
           
           <Route path="/Interviewer" element={<Protection />} >
             <Route exact path="" element={<Interviewer />} />
