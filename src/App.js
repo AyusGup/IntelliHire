@@ -43,7 +43,8 @@ function App() {
             element={<ResumeScore />}
           />
 
-          {/* <Route exact path="/Interview" element={<Interview />} /> */}
+          <Route exact path="/Interview" element={<Interview />} />
+          
           <Route
               exact
               path="/Interview/Details/:postID/:typeID/:selectedItem/:InterviewID"
