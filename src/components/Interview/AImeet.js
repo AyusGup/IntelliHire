@@ -201,7 +201,7 @@ const InterviewMEET = (props) => {
             className="h-full flex flex-col justify-between"
           >
             <div className="logo-meet top-10 right-14 h-fit w-24 bg-slate-50 self-end">
-              <img src="/image-139-304-edited.jpg" alt="LOGO" />{" "}
+              <img src="/intellihire.jpg" alt="LOGO" />{" "}
             </div>
 
             {/* time and command component */}
