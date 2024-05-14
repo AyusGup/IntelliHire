@@ -8,16 +8,16 @@ export default function ResumeLanding() {
         titleComponent={
           <>
             <h1 className="text-4xl font-semibold text-white">
-              Unleash the power of <br />
+              Be Resume Ready! <br />
               <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                Scroll Animations
+                Resume Reviewer
               </span>
             </h1>
           </>
         }
       >
         <img
-          src={`/linear.webp`}
+          src={`/image.jpg`}
           alt="hero"
           height={720}
           width={1400}
