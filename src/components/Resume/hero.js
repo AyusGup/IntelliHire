@@ -17,7 +17,7 @@ export default function ResumeLanding() {
         }
       >
         <img
-          src={`/image.jpg`}
+          src={`/image.png`}
           alt="hero"
           height={720}
           width={1400}
