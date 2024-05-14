@@ -17,7 +17,7 @@ export default function MacbookScrollDemo() {
             {/* <Badge className="h-10 w-10 transform -rotate-12" /> */}
           </Link>
         }
-        src={`/linear.webp`}
+        src={`/intellihire.jpg`}
         showGradient={false}
       />
     </div>
