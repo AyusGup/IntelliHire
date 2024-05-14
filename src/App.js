@@ -19,6 +19,7 @@ import PostInput from "./components/Post/input";
 import WebcamStream from "./components/WebStream";
 import AudioStream from "./components/AudioStream";
 import SpeechToText from "./components/RecordToText";
+import Protection from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -27,42 +28,63 @@ function App() {
         <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/Profile" element={<Profile />} />
-          <Route exact path="/Resume" element={<Resume />} />
-          <Route exact path="/Interview" element={<Interview />} />
-          <Route
-            extact
-            path="/Interview/Details/:postID/:typeID/:selectedItem/:InterviewID"
-            element={<InterviewMEET />}
-          />
-          <Route
-            extact
-            path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/online"
-            element={<LobbyScreen />}
-          />
+
+          <Route path="/Profile" element={<Protection />} >
+            <Route path="" element={<Profile />} />
+          </Route>
+
+          <Route path="/Resume" element={<Protection />} >
+            <Route exact path="" element={<Resume />} />
+            <Route
+              exact
+              path="/ResumeScore/:ResumeSubmissionID"
+              element={<ResumeScore />}
+            />
+          </Route>
+
+          <Route path="/Interview" element={<Protection />} >
+            <Route exact path="" element={<Interview />} />
+            <Route
+              exact
+              path="Details/:postID/:typeID/:selectedItem/:InterviewID"
+              element={<InterviewMEET />}
+            />
+            <Route
+              extact
+              path="Details/:postID/:typeID/ManualInterviewer/mylobby/online"
+              element={<LobbyScreen />}
+            /> 
+            <Route
+              extact
+              path="Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
+              element={<InterviewMEET />}
+            />
+            <Route
+              extact
+              path="Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/candidate/room/:roomID"
+              element={<ManualInterviewMEET />}
+            />
+            <Route
+              extact
+              path="Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/interviewer/room/:roomID"
+              element={<Interviewer />}
+            />
+          </Route>
+          
+          <Route path="/Interviewer" element={<Protection />} >
+            <Route exact path="" element={<Interviewer />} />
+          </Route>
+
+          <Route path="/Dashboard" element={<Protection />} >
+            <Route exact path="" element={<Dashboard />} />
+          </Route>
+          
           <Route extact path="/faltu" element={<Dictaphone />} />
           <Route extact path="/faltu" element={<Dictaphone />} />
-          <Route
-            extact
-            path="/Interview/Details/:postID/:typeID/ManualInterviewer/mylobby/bot"
-            element={<InterviewMEET />}
-          />
+          
           <Route extact path="/company" element={<CompanyDashboard />} />
-          <Route
-            extact
-            path="/Interview/Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/candidate/room/:roomID"
-            element={<ManualInterviewMEET />}
-          />
-          <Route
-            extact
-            path="/Interview/Details/:postID/:typeID/ManualInterviewer/:InterviewID/online/interviewer/room/:roomID"
-            element={<Interviewer />}
-          />
-          <Route
-            exact
-            path="/Resume/ResumeScore/:ResumeSubmissionID"
-            element={<ResumeScore />}
-          />
+          
+          
           <Route
             exact
             path="/post"
@@ -78,8 +100,7 @@ function App() {
             path="/Complete-Interview"
             element={<CompleteReview />}
           />
-          <Route exact path="/Dashboard" element={<Dashboard />} />
-          <Route exact path="/Interviewer" element={<Interviewer />} />
+          
           <Route exact path="/webstream" element={<WebcamStream />} />
           <Route exact path="/audiostream" element={<AudioStream />} />
           <Route exact path="/recordtotext" element={<SpeechToText />} />
