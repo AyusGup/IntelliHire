@@ -39,7 +39,7 @@ function App() {
 
           <Route
             exact
-            path="/ResumeScore/:ResumeSubmissionID"
+            path="/Resume/ResumeScore/:ResumeSubmissionID"
             element={<ResumeScore />}
           />
 
