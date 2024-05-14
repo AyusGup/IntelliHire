@@ -10,11 +10,11 @@ const UserProvider = (props) => {
   });
 
   const token = localStorage.getItem("token");
+  const now = new Date();
 
   useEffect(() => {
     if(token){
-
-      if (now.getTime() >= item.expiry) {
+      if (now.getTime() >= token.expiresIn) {
         // If the item is expired, delete the item from storage
         // and return null
         localStorage.removeItem(token);
