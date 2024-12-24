@@ -72,7 +72,7 @@ function WebcamStream() {
       });
   };
 
-  return <video ref={videoRef} style={{ width: '100%' }} />;
+  return <video ref={videoRef} />;
 }
 
 export default WebcamStream;
