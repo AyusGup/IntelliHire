@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 function WebcamStream() {
   const videoRef = useRef(null);
   let sendFrameInterval;
+
   useEffect(() => {
     const startWebcam = async () => {
       try {
@@ -11,11 +12,11 @@ function WebcamStream() {
           videoRef.current.srcObject = stream;
           videoRef.current.addEventListener('loadedmetadata', () => {
             videoRef.current.play();
-            sendFrameInterval = setInterval(sendFrame, 3000); // Send frame data every 2 seconds
+            sendFrameInterval = setInterval(sendFrame, 10000); // Send frame data every 3 seconds
           });
         }
       } catch (err) {
-        // console.error('Error accessing webcam:', err);
+        console.error('Error accessing webcam:', err);
       }
     };
 
@@ -26,11 +27,11 @@ function WebcamStream() {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject;
         const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
+        tracks.forEach((track) => track.stop());
       }
-      videoRef.current.removeEventListener('loadedmetadata', () => {});
-      clearTimeout(sendFrameInterval);
-      console.log("removed webcam");
+      if (sendFrameInterval) {
+        clearInterval(sendFrameInterval);
+      }
     };
   }, []);
 
@@ -41,32 +42,37 @@ function WebcamStream() {
       canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const imageData = canvas.toDataURL('image/jpeg');
-      sendDataViaAPI(imageData);
-      // requestAnimationFrame(sendFrame);
+      canvas.toBlob((blob) => {
+        if (blob) {
+          sendDataViaAPI(blob);
+        }
+      }, 'image/jpeg');
     }
   };
 
-  const sendDataViaAPI = (frameData) => {
-    fetch('https://w8mx4nrj-5002.inc1.devtunnels.ms/process_frame', {
+  const sendDataViaAPI = (blob) => {
+    const formData = new FormData();
+    formData.append('file', blob, 'frame.jpg'); // Append the blob as a file
+
+    fetch('https://3tcr3qrf-8000.inc1.devtunnels.ms/analyze/', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ frame: frameData })
+      body: formData,
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to send frame data');
-      }
-      // console.log('Frame data sent successfully');
-    })
-    .catch(error => {
-      console.error('Error sending frame data:', error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to send frame data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response from API:', data);
+      })
+      .catch((error) => {
+        console.error('Error sending frame data:', error);
+      });
   };
 
-  return <video ref={videoRef} />;
+  return <video ref={videoRef} style={{ width: '100%' }} />;
 }
 
 export default WebcamStream;
